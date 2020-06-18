@@ -1,6 +1,6 @@
-# zoox-test-front
+# Zoox Test Front
 
-> Projecto de Avaliação UX, UI &amp; Front-End
+> Projeto de Avaliação UX, UI & Front-End
 
 ## Build Setup
 
@@ -8,15 +8,10 @@
 # install dependencies
 $ npm install
 
+# You need to run the API server for Dev
+$ npm run api
+
 # serve with hot reload at localhost:3000
 $ npm run dev
 
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
