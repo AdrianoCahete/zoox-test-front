@@ -1,0 +1,134 @@
+/*!
+*
+*  CSS made by Adriano Cahete
+*
+*/
+
+@use './settings/*' as *;
+@use './tools/*' as *;
+
+html {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 62.5%;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  height: 100vh;
+  background: var(--bgColor);
+  background-attachment: fixed;
+  color: var(--textColor, #ffffff);
+  scrollbar-color: rgba(255, 255, 255, .8) var(--bgColor); // <Thumb> <Track> -- Browser Customizations
+  scrollbar-width: thin;  // Browser Customizations
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  transition: ease all .3s;
+}
+// Scrollbar for Firefox 64+
+// https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color#Browser_compatibility
+// https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-width#Browser_compatibility
+
+body {
+  height: 100vh;
+  max-height: 100vh;
+  font-size: 1.6rem;
+}
+
+// Browser Customizations
+// Scrollbar for Chrome
+// https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px var(--scrollbarColor);
+    border-radius: 3px;
+}
+
+// Handle
+::-webkit-scrollbar-thumb {
+    background: rgb(110, 110, 110);
+    border-radius: 10px;
+
+  &:hover {
+      background: rgb(110, 110, 110);
+  }
+}
+
+::-webkit-scrollbar-track-piece {
+    // not handle on
+    background: var(--scrollbarColor);
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity .5s;
+}
+
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+}
+
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity .5s;
+}
+
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
+}
+
+a {
+  color: var(--textColor, #ffffff);
+}
+
+h1 {
+  font-size: 1.6rem;
+}
+
+.page {
+  display: flex;
+}
+
+// @media (max-width: 1024px) {
+//   .page {
+//     flex-direction: column;
+//   }
+// }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+  width: 100vw;
+  scroll-snap-type: y mandatory;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    margin-left: 0;
+    width: 100vw;
+  }
+}
+
+// Utils
+.isHidden {
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
