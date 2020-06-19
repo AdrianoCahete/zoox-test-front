@@ -52,12 +52,12 @@ export default {
 
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/pwa', // https://pwa.nuxtjs.org/
-    {
-      icon: false,
-      meta: false
-    }
+    '@nuxtjs/eslint-module'
+    // '@nuxtjs/pwa'
+    // {
+    //   icon: false,
+    //   meta: false
+    // }
   ],
 
   modules: [
@@ -67,34 +67,50 @@ export default {
     '@nuxtjs/pwa'
   ],
 
-  auth: {
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: '/auth/login',
-            method: 'post',
-            propertyName: false
-          },
-          logout: {
-            url: '/auth/logout',
-            method: 'post'
-          },
-          user: {
-            url: '/auth/profile',
-            method: 'get',
-            propertyName: false
-          }
-        },
-        tokenRequired: false,
-        tokenType: false
-      }
-    }
+  router: {
+    middleware: ['auth']
   },
 
   axios: {
     baseURL: 'http://localhost:3001',
     credentials: true
+  },
+
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/logout',
+      callback: '/login',
+      home: '/dashboard'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/login',
+            method: 'post',
+            propertyName: false
+          },
+          logout: {
+            url: '/logout',
+            method: 'post'
+          },
+          user: {
+            url: '/profile',
+            method: 'get',
+            propertyName: 'user'
+          }
+        },
+        responseType: 'accessToken',
+        grantType: 'accessToken'
+        // tokenRequired: true,
+        // tokenType: 'bearer'
+      }
+      // github: {
+      //   client_id: '...',
+      //   client_secret: '...'
+      // }
+    }
   },
 
   pwa: {
