@@ -76,42 +76,42 @@ export default {
     credentials: true
   },
 
-  auth: {
-    redirect: {
-      login: '/login',
-      logout: '/logout',
-      callback: '/login',
-      home: '/dashboard'
-    },
-    strategies: {
-      local: {
-        endpoints: {
-          login: {
-            url: '/login',
-            method: 'post',
-            propertyName: false
-          },
-          logout: {
-            url: '/logout',
-            method: 'post'
-          },
-          user: {
-            url: '/profile',
-            method: 'get',
-            propertyName: 'user'
-          }
-        },
-        responseType: 'accessToken',
-        grantType: 'accessToken'
-        // tokenRequired: true,
-        // tokenType: 'bearer'
-      },
-      github: {
-        client_id: 'c73a4b3d0d621614e2a5',
-        client_secret: 'f65a2778ca3f000333dbc24f9e0607daaeeb2f96'
-      }
-    }
-  },
+  // auth: {
+  //   redirect: {
+  //     login: '/login',
+  //     logout: '/logout',
+  //     callback: '/login',
+  //     home: '/dashboard'
+  //   },
+  //   strategies: {
+  //     local: {
+  //       endpoints: {
+  //         login: {
+  //           url: '/login',
+  //           method: 'post',
+  //           propertyName: false
+  //         },
+  //         logout: {
+  //           url: '/logout',
+  //           method: 'post'
+  //         },
+  //         user: {
+  //           url: '/profile',
+  //           method: 'get',
+  //           propertyName: 'user'
+  //         }
+  //       },
+  //       responseType: 'accessToken',
+  //       grantType: 'accessToken'
+  //       // tokenRequired: true,
+  //       // tokenType: 'bearer'
+  //     },
+  //     github: {
+  //       client_id: '',
+  //       client_secret: ''
+  //     }
+  //   }
+  // },
 
   pwa: {
     // workbox: {
