@@ -11,7 +11,6 @@
             id="email"
             v-model="email"
             type="email"
-            patter="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/"
             placeholder="user@email.com"
             required
           >
@@ -51,6 +50,7 @@ export default {
       password: ''
     }
   },
+
   methods: {
     fakeUserLogin () {
       const auth = {
@@ -66,7 +66,6 @@ export default {
         const response = await this.$axios.$post('/login', { email: this.data.login.email, password: this.data.login.password })
         // eslint-disable-next-line no-console
         console.log(response)
-        this.$router.push(this.localePath({ name: 'dashboard' }))
       } catch (err) {
         // eslint-disable-next-line no-console
         console.log(err)
