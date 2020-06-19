@@ -1,0 +1,48 @@
+button {
+  height: 4rem;
+  border-radius: 4px;
+  border: 0;
+  @include transition(background-color);
+
+  &:hover {
+    @include transition(background-color);
+  }
+
+  &:active,
+  &:focus {
+    outline: 0;
+  }
+
+  // Modifiers
+  &.btn-Full {
+    width: 100%;
+  }
+
+  // Types
+  &.btnPrimary {
+    background-color: var(--primaryColor);
+    color: var(--textColorInverted);
+
+    &:hover {
+      background-color: var(--primaryColorDarker);
+    }
+  }
+
+  &.btnGhost {
+    border: 1px solid var(--primaryColor);
+
+    &:hover {
+      border-color: var(--primaryColorDarker);
+    }
+  }
+
+  // States
+  &.isLoading {
+    background-color: #ccc; // TODO: Get from vars
+  }
+
+  &.disabled {
+    background-color: #ccc; // TODO: Get from vars
+    pointer-events: none;
+  }
+}

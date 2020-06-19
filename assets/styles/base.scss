@@ -10,9 +10,8 @@ html {
   height: 100vh;
   background: var(--bgColor);
   background-attachment: fixed;
-  color: var(--textColor, #ffffff);
-  scrollbar-color: rgba(255, 255, 255, .8) var(--bgColor); // <Thumb> <Track> -- Browser Customizations
-  scrollbar-width: thin;  // Browser Customizations
+  color: var(--textColor);
+  scrollbar-color: var(--scrollbarThumbColor) var(--bgColor); // <Thumb> <Track> -- Browser Customizations
   scroll-behavior: smooth;
   overflow-x: hidden;
   transition: ease all .3s;
@@ -32,6 +31,7 @@ body {
 // https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
 ::-webkit-scrollbar {
     width: 8px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -41,7 +41,7 @@ body {
 
 // Handle
 ::-webkit-scrollbar-thumb {
-    background: rgb(110, 110, 110);
+    background: var(--scrollbarThumbColor);
     border-radius: 10px;
 
   &:hover {
@@ -52,6 +52,10 @@ body {
 ::-webkit-scrollbar-track-piece {
     // not handle on
     background: var(--scrollbarColor);
+}
+
+* {
+  scrollbar-width: thin;  // Browser Customizations
 }
 
 *,
@@ -83,6 +87,17 @@ body {
 
 a {
   color: var(--textColor, #000000);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: calc(100% - 4rem);
+  height: 100%;
+  margin: 2rem;
+  animation: fadeIn 1s ease-in;
 }
 
 // @media (max-width: 1024px) {

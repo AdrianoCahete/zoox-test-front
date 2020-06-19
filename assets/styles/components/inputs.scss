@@ -17,29 +17,6 @@ input {
   }
 }
 
-button {
-  height: 4rem;
-  background-color: var(--primaryColor);
-  border-radius: 4px;
-  border: 0;
-  color: var(--textColorInverted);
-  @include transition(background-color);
-
-  &:hover {
-    background-color: var(--primaryColorDarker);
-    @include transition(background-color);
-  }
-
-  &:active,
-  &:focus {
-    outline: 0;
-  }
-
-  &.isLoading {
-    background-color: #ccc;
-  }
-}
-
 .input-content {
     margin-bottom: 1rem;
 }

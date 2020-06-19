@@ -13,7 +13,7 @@
     <path data-name="Caminho 43" d="M9.912 8.485h11.257v1.3l-7.6 10.735h7.6v2.61H9.723v-1.59l7.429-10.463h-7.24z" fill="#27bed5" />
   </svg>
 </template>
-<style>
+<style scoped>
 .zooxBrand {
   animation: 1s fadeIn;
   margin: auto;
