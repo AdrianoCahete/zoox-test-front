@@ -6,12 +6,12 @@
       <form method="post">
         <section class="input-content">
           <label for="cidade">Cidade</label>
-          <input
+          <v-select
             id="cidade"
             v-model="city"
-            type="text"
-            value="Rio de Janeiro, BR"
-          >
+            class="input-select"
+            :options="['Rio de Janeiro, BR', 'Atlanta, US']"
+          />
         </section>
         <button type="button" @click="getWeather">
           Buscar

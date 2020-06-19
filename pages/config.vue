@@ -2,9 +2,14 @@
   <div class="content">
     <!-- Logged In -->
     <Navbar />
-    <div v-if="$store.state.auth">
-      <section>
+    <div v-if="$store.state.auth" class="page">
+      <section class="">
         Config
+        <section>
+          <section class="input-content">
+            <v-select class="input-select" :options="['Canada', 'United States']" />
+          </section>
+        </section>
       </section>
     </div>
 
@@ -30,4 +35,9 @@ export default {
 </script>
 
 <style>
+.page {
+  width: 100%;
+  height: 100%;
+  margin: 2rem;
+}
 </style>
