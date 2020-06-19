@@ -28,6 +28,8 @@
 <script>
 // import Logo from '~/components/Logo.vue'
 
+const strategy = process.env.NODE_ENV ? 'local' : 'github'
+
 export default {
   components: {
     // Logo
@@ -46,7 +48,7 @@ export default {
   methods: {
     async userLogin () {
       try {
-        const response = await this.$auth.loginWith('local', { data: this.login })
+        const response = await this.$auth.loginWith(strategy, { data: this.login }) // use 'local' for testing, 'github' for deploy -- TODO: Move to if based on ENV flag
         // eslint-disable-next-line no-console
         console.log(response)
         // this.$toast.success('Logged In!')

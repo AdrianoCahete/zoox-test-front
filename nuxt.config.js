@@ -105,11 +105,11 @@ export default {
         grantType: 'accessToken'
         // tokenRequired: true,
         // tokenType: 'bearer'
+      },
+      github: {
+        client_id: 'c73a4b3d0d621614e2a5',
+        client_secret: 'f65a2778ca3f000333dbc24f9e0607daaeeb2f96'
       }
-      // github: {
-      //   client_id: '...',
-      //   client_secret: '...'
-      // }
     }
   },
 
