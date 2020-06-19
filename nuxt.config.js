@@ -53,23 +53,19 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module'
-    // '@nuxtjs/pwa'
-    // {
-    //   icon: false,
-    //   meta: false
-    // }
+    // '@nuxtjs/pwa' // The 'request' argument must be string. Received type undefined
   ],
 
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/auth',
+    // '@nuxtjs/auth',
     '@nuxtjs/pwa'
   ],
 
-  router: {
-    middleware: ['auth']
-  },
+  // router: {
+  //   middleware: ['auth']
+  // },
 
   axios: {
     baseURL: 'http://localhost:3001',
@@ -114,11 +110,6 @@ export default {
   // },
 
   pwa: {
-    // workbox: {
-    //   // Offline
-    //   offline: true,
-    //   offlineStrategy: 'NetworkFirst'
-    // },
     manifest: {
       display: 'browser'
     }

@@ -1,20 +1,17 @@
 <template>
   <section class="container">
-    <p v-if="errors">
-      <b>Erro</b>
-    </p>
     <section class="loginBox">
       <section>
         Logo
       </section>
-      <form method="post" @submit="userLogin">
+      <form method="post" @submit="fakeUserLogin">
         <section>
           <label for="email">Email</label>
-          <input id="email" v-model="login.email" type="text">
+          <input id="email" v-model="email" type="text">
         </section>
         <section>
           <label for="pass">Password</label>
-          <input id="pass" v-model="login.password" type="password">
+          <input id="pass" v-model="password" type="password">
         </section>
         <button type="submit">
           Login
@@ -31,14 +28,13 @@
 <script>
 // import Logo from '~/components/Logo.vue'
 
-// const strategy = process.env.NODE_ENV ? 'local' : 'github'
-// const strategy = 'local'
+const Cookie = process.client ? require('js-cookie') : undefined
 
 export default {
   components: {
-    // Logo
-  },
 
+  },
+  middleware: 'notAuthenticated',
   layout: 'portal',
 
   data () {
@@ -48,9 +44,18 @@ export default {
     }
   },
   methods: {
+    fakeUserLogin () {
+      const auth = {
+        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAem9veC5hZHJpYW5vY2FoZXRlLmRldiIsImlhdCI6MTU5MjUyNDk0MiwiZXhwIjoxNTkyNTI4NTQyLCJzdWIiOiIxIn0.Co9FlZGS0ULafcMob_oBOncdeDkTafAJ34MyWRrX6gM'
+      }
+      this.$store.commit('setAuth', auth)
+      Cookie.set('auth', auth)
+      this.$router.push('/')
+    },
+
     async userLogin () {
       try {
-        const response = await this.$axios.$post('/login', { email: this.data.login.email, password: this.data.login.password }) // use 'local' for testing, 'github' for deploy -- TODO: Move to if based on ENV flag
+        const response = await this.$axios.$post('/login', { email: this.data.login.email, password: this.data.login.password })
         // eslint-disable-next-line no-console
         console.log(response)
         this.$router.push(this.localePath({ name: 'dashboard' }))
@@ -61,7 +66,10 @@ export default {
       }
     },
 
-    async userLogout () { await this.$auth.logout() }
+    async userLogout () {
+      await this.$auth.logout()
+      this.$store.commit('setAuth', null)
+    }
   }
 }
 </script>
@@ -74,7 +82,6 @@ export default {
   margin: 0 auto;
   min-height: 100vh;
   text-align: center;
-  font-size: 1.6rem;
 }
 
 .loginBox {

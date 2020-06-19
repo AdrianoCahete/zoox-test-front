@@ -9,7 +9,7 @@
 
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 62.5%;
+  // font-size: 62.5%;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -33,7 +33,7 @@ html {
 body {
   height: 100vh;
   max-height: 100vh;
-  font-size: 1.6rem;
+  font-size: 1.0rem;
 }
 
 // Browser Customizations
@@ -92,10 +92,6 @@ body {
 
 a {
   color: var(--textColor, #ffffff);
-}
-
-h1 {
-  font-size: 1.6rem;
 }
 
 .page {

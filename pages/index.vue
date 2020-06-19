@@ -1,63 +1,52 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        zoox-test-front
-      </h1>
-      <h2 class="subtitle">
-        Projecto de Avaliação UX, UI &amp; Front-End
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+    <div v-if="$store.state.auth">
+      <p>
+        You are authenticated. You can see the
+        <NuxtLink to="/secret">
+          secret page
+        </NuxtLink>!
+      </p>
+      <button @click="logoutUser">
+        Logout
+      </button>
     </div>
+
+    <p v-else>
+      Please
+      <NuxtLink to="/login">
+        login
+      </NuxtLink>.
+    </p>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+// import Logo from '~/components/Logo.vue'
+
+const Cookie = process.client ? require('js-cookie') : undefined
 
 export default {
   components: {
-    Logo
+  },
+
+  methods: {
+    logoutUser () {
+      Cookie.remove('auth')
+      this.$store.commit('setAuth', null)
+    }
   }
 }
 </script>
 
 <style>
 .container {
-  margin: 0 auto;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  margin: 0 auto;
+  min-height: 100vh;
   text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.links {
-  padding-top: 15px;
 }
 </style>
