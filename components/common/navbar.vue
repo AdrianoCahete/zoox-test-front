@@ -11,13 +11,12 @@
         Test
       </nuxt-link> -->
     </nav>
-    <section :class="$store.state.auth ? 'brand' : 'brand notLogged'">
-      Logo
+    <section :class="$store.state.auth ? 'brand' : 'brand notLogged'" title="Zoox">
+      <Brand />
     </section>
     <section v-if="$store.state.auth" class="userInfo">
       <!-- <userAvatar user-name="Username" /> -->
-      <span>Username</span>
-      <nuxt-link to="/" @click.native="logoutUser">
+      <nuxt-link to="/login" @click.native="logoutUser">
         Sair
       </nuxt-link>
     </section>
@@ -26,11 +25,13 @@
 
 <script>
 // import userAvatar from '~/components/common/userAvatar.vue'
+import Brand from '~/components/Logo.vue'
+
 const Cookie = process.client ? require('js-cookie') : undefined
 
 export default {
   components: {
-    // userAvatar
+    Brand
   },
   data () {
     return {
@@ -41,27 +42,65 @@ export default {
     logoutUser () {
       Cookie.remove('auth')
       this.$store.commit('setAuth', null)
+      this.$router.push('/login')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '~assets/styles/tools/functions.scss';
+
 .navbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: fixed;
+  animation: fromUp2Down 1s ease-in;
   width: 100%;
+  height: 6rem;
   top: 0;
-  padding: 1rem;
-  border-bottom: 1px solid #ccc;
+  padding: 0 1rem;
+  background-color: var(--navbarColor);
+  border-bottom: var(--navbarBorder);
+
+  .menu,
+  .userInfo {
+    display: flex;
+    width: calc(50vw - 60px);
+  }
+
+  .menu {
+    justify-content: flex-start;
+
+    > a {
+      padding: 1.8rem;
+      text-decoration: none;
+      border-bottom: 3px solid transparent;
+
+      &:hover {
+        background-color: var(--navItemBgHover);
+        color: var(--navbarColor);
+        @include transition();
+      }
+    }
+
+    .nuxt-link-exact-active {
+      color: var(--navItemActive);
+      font-weight: bold;
+      pointer-events: none;
+      border-bottom-color: var(--navItemActive);
+    }
+  }
 
   .userInfo {
+    justify-content: flex-end;
     margin-left: auto;
   }
 
   .brand {
     margin-left: auto;
+    height: 3rem;
 
     &.notLogged {
       margin-right: auto;

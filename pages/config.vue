@@ -4,17 +4,17 @@
     <Navbar />
     <div v-if="$store.state.auth">
       <p>
-        Você está autenticado
+        Configuração
       </p>
     </div>
 
     <!-- Not logged in -->
-    <p v-else>
-      Por favor
+    <div v-else>
+      <p>Você não tem permissão para acessar esta página.</p>
       <NuxtLink to="/login">
-        faça login
+        Clique aqui para fazer login
       </NuxtLink>
-    </p>
+    </div>
   </div>
 </template>
 

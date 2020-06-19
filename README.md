@@ -30,7 +30,7 @@ O site dado traduz pra português até os códigos, acabei usando a [Wikipedia](
 Tem problema se eu salvar? No momento tá salvando na db direto...
 
 
-## Know Problems:
+## Problemas conhecidos:
 - Auth não está funcionando, o POST nem chega à API.  
 Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha).
 

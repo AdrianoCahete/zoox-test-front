@@ -1,21 +1,24 @@
 // Default Color (Light) Mode
 :root {
-  --primaryColor: rgba(0, 108, 136, 1);
+  --primaryColor: rgba(39, 190, 213, 1);
+  --primaryColorDarker: rgba(30, 150, 168, 1);
 
   --bgColor: rgba(255, 255, 255, 1);
 
   --scrollbarColor: rgba(228, 228, 228, .8);
 
-  --navbarColor: transparent;
+  --navbarColor: rgba(255, 255, 255, 1);
   --navbarBorder: 1px solid rgba(228, 228, 228, 1);
-  --navbarIconColor: rgba(40, 40, 40, 1);
-  --navbarIconColorAlt: rgba(214, 214, 214, 1);
 
-  --navColor: rgba(51, 51, 51, .6);
-  --navColorHover: rgba(51, 51, 51, .9);
+  --navItemColor: rgba(51, 51, 51, .6);
+  --navItemActive: var(--primaryColor);
+  --navItemBgHover: var(--primaryColor);
 
   --textColor: rgba(51, 51, 51, 1);
+  --textColorInverted: rgba(255, 255, 255, 1);
   --grayedOut: rgba(78, 78, 78, 1);
+
+  --inputBorder: 1px solid rgba(228, 228, 228, 1);
 
   // Same in both themes
   --alertInfo: rgba(40, 143, 235, 1);
@@ -25,7 +28,7 @@
 }
 
 
-// Dark Mode -- Pode descomentar, mas não testei nesse projeto (obviamente) :P
+// Dark Mode -- Pode descomentar, mas não testei nesse projeto :P
 // @media (prefers-color-scheme: dark) {
 //   :root {
 //     --primaryColor: rgb(131, 194, 210); // rgba(196, 218, 240, 1)

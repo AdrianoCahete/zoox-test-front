@@ -3,5 +3,5 @@
 </template>
 
 <style lang="scss" scoped>
-  @import '~assets/styles/base.scss';
+  @import '~assets/styles/index.scss';
 </style>

@@ -1,0 +1,16 @@
+@mixin transition($property: all, $delay: 0, $duration: 0.5s, $timing: ease-in-out) {
+  transition-property: $property;
+  transition-delay: $delay;
+  transition-duration: $duration;
+  transition-timing-function: $timing;
+}
+
+// https://github.com/sass/node-sass/issues/2251
+// @function isDark($color) {
+//   @if (lightness( $color ) > 40) {
+//       @return var(--textColor);
+//     }
+//   @else {
+//     @return var(--textColorInverted);
+//   }
+// }

@@ -1,17 +1,24 @@
 <template>
-  <section class="container">
+  <section class="content">
     <section class="loginBox">
-      <section>
-        Logo
+      <section class="brand" title="Zoox Smart">
+        <Brand />
       </section>
       <form method="post" @submit="fakeUserLogin">
-        <section>
+        <section class="input-content">
           <label for="email">Email</label>
-          <input id="email" v-model="email" type="text" required>
+          <input
+            id="email"
+            v-model="email"
+            type="email"
+            patter="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/"
+            placeholder="user@email.com"
+            required
+          >
         </section>
-        <section>
-          <label for="pass">Password</label>
-          <input id="pass" v-model="password" type="password" required>
+        <section class="input-content">
+          <label for="pass">Senha</label>
+          <input id="pass" v-model="password" type="password" placeholder="Senha" required>
         </section>
         <button type="submit">
           Login
@@ -26,14 +33,15 @@
 </template>
 
 <script>
-// import Logo from '~/components/Logo.vue'
+import Brand from '~/components/Logo.vue'
 
 const Cookie = process.client ? require('js-cookie') : undefined
 
 export default {
   components: {
-
+    Brand
   },
+
   middleware: 'notAuthenticated',
   layout: 'portal',
 
@@ -69,22 +77,49 @@ export default {
     async userLogout () {
       await this.$auth.logout()
       this.$store.commit('setAuth', null)
+      this.$router.push('/login')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  min-height: 100vh;
-  text-align: center;
+.brand {
+  height: 5rem;
 }
 
 .loginBox {
-  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 40vh;
+  max-height: 70%;
+  width: 300px;
+  max-width: 100%;
+  opacity: 0;
+  animation: 2s fadeIn;
+  animation-fill-mode: forwards;
+  background-color: var(--bgColor);
+  border: 1px solid #ccc; // TODO: Move to vars
+  padding-top: 2rem; // TODO: Move to vars
+  box-shadow: 0 0 20px 10px rgba(0, 0, 0, .1);
+
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 0 2rem; // TODO: Get to vars
+
+    > section {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+  }
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 2rem; // TODO: Get to vars
+  font-size: 1.4rem;
 }
 </style>
