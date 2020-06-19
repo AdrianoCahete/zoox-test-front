@@ -1,17 +1,14 @@
 <template>
   <div class="container">
+    <!-- Logged In -->
+    <Navbar />
     <div v-if="$store.state.auth">
       <p>
-        You are authenticated. You can see the
-        <NuxtLink to="/secret">
-          secret page
-        </NuxtLink>!
+        You are authenticated.
       </p>
-      <button @click="logoutUser">
-        Logout
-      </button>
     </div>
 
+    <!-- Not logged in -->
     <p v-else>
       Please
       <NuxtLink to="/login">
@@ -23,18 +20,11 @@
 
 <script>
 // import Logo from '~/components/Logo.vue'
-
-const Cookie = process.client ? require('js-cookie') : undefined
+import Navbar from '~/components/common/navbar.vue'
 
 export default {
   components: {
-  },
-
-  methods: {
-    logoutUser () {
-      Cookie.remove('auth')
-      this.$store.commit('setAuth', null)
-    }
+    Navbar
   }
 }
 </script>

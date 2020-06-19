@@ -52,7 +52,8 @@ export default {
 
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/device'
     // '@nuxtjs/pwa' // The 'request' argument must be string. Received type undefined
   ],
 
@@ -68,8 +69,8 @@ export default {
   // },
 
   axios: {
-    baseURL: 'http://localhost:3001',
-    credentials: true
+    baseURL: 'http://localhost:3001' // Local API: http://localhost:3001
+    // credentials: true
   },
 
   // auth: {

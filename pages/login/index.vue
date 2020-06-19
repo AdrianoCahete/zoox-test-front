@@ -7,11 +7,11 @@
       <form method="post" @submit="fakeUserLogin">
         <section>
           <label for="email">Email</label>
-          <input id="email" v-model="email" type="text">
+          <input id="email" v-model="email" type="text" required>
         </section>
         <section>
           <label for="pass">Password</label>
-          <input id="pass" v-model="password" type="password">
+          <input id="pass" v-model="password" type="password" required>
         </section>
         <button type="submit">
           Login
