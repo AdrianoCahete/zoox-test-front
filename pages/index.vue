@@ -18,7 +18,11 @@
         </button>
       </form>
       <section>
-        {{ weather }}
+        <ul>
+          <li v-for="weather in weathers" :key="weather.id" class="item">
+            <span :id="weather.id">{{ weather.name }}</span>
+          </li>
+        </ul>
       </section>
     </div>
 
@@ -43,6 +47,7 @@ const internalAPI = {
 
 const rapidapi = {
   url: 'https://community-open-weather-map.p.rapidapi.com/forecast?q=rio de janeiro, br',
+  query: '',
   host: 'community-open-weather-map.p.rapidapi.com',
   key: '3c5851de7amsh1226b702e3157f8p1b35e8jsn633cdea0f700', // ¯\_(ツ)_/¯ -- É client-side, não tem como não ser pública
   useQueryString: true
@@ -56,37 +61,36 @@ export default {
   // Default City
   data () {
     return {
+      id: '1',
       city: 'Rio de Janeiro, BR',
-      weather: ''
+      countries: [],
+      weathers: []
     }
   },
 
   // Get all Countries & Cities on page loading
   mounted () {
-    this.getCountries()
-    this.getCities()
+    this.getCountry()
   },
 
   methods: {
     // Get all Countries to list on dropdown
-    async getCountries () {
-      const countries = await this.$axios.get(internalAPI.url + '/country/')
-      return countries
-    },
-
-    // Get all Cities to list on dropdown
-    async getCities () {
-      const cities = await this.$axios.get(internalAPI.url + '/city/')
-      return cities
+    async getCountry ({ id }) {
+      const countries = await this.$axios.$get(internalAPI.url + '/country/' + id + '?_embed=city')
+      // const { data } = await this.$axios.$get(internalAPI.url + '/country/' + id + '?_embed=city')
+      // eslint-disable-next-line no-console
+      console.log(countries)
+      // store.commit('setCountry', countries)
     },
 
     // eslint-disable-next-line require-await
-    async getWeather ({ commit }) {
+    async getWeather ({ id }) {
       this.$axios.$get(rapidapi.url, { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
         const res = JSON.stringify(response)
         // eslint-disable-next-line no-console
         console.log(res)
-        return { weather: res }
+        // commit('setWeather', res)
+        return { weathers: res }
       })
         .catch((error) => {
           // eslint-disable-next-line no-console

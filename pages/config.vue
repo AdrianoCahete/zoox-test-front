@@ -3,9 +3,9 @@
     <!-- Logged In -->
     <Navbar />
     <div v-if="$store.state.auth">
-      <p>
-        Configuração
-      </p>
+      <section>
+        Config
+      </section>
     </div>
 
     <!-- Not logged in -->
