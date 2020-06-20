@@ -1,19 +1,54 @@
 <template>
-  <section :id="id" :class="'weatherCard ' + weatherDesc + ($moment(date).format('HH') >= 18 ? ' timeNight' : ' timeDay')">
-    <section>
-      <span>{{ $moment(date).format('HH') }}h - {{ $moment(date).format('DD MMMM') }}</span>
+  <section :id="id" :class="'weatherCard ' + weatherDesc.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight' : ' timeDay')">
+    <section class="time">
+      <span>{{ $moment(date).format('HH') }}h</span>
+      <span>{{ $moment(date).format('DD MMMM') }}</span>
     </section>
     <section class="temp">
-      <p>{{ temp }}</p>
+      <span>
+        {{ Math.floor(temp) }}
+      </span>
     </section>
     <section class="desc">
-      <p>clima: {{ weatherDesc }}</p>
-      <p>nuvens: {{ clouds }}</p>
+      <span>{{ weatherDesc }}</span>
+      <span v-if="clouds < 1 ? '': 'isHidden'" class="value valuePercent">
+        {{ clouds }}
+      </span>
     </section>
-    <section>
-      <p>umidade: {{ humidity }}</p>
-      <p>pressao: {{ pressure }}</p>
-      <p>vento: {{ windSpeed }} @ {{ windDeg }}º</p>
+    <section class="extraInfo">
+      <section>
+        <span class="title">
+          Umidade
+        </span>
+        <span class="value valuePercent">
+          {{ humidity }}
+        </span>
+        <span class="extraValue">
+          <section :data-progress="humidity" /> <!-- TODO: Move to custom component -->
+        </span>
+      </section>
+      <section>
+        <span class="title">
+          Pressão
+        </span>
+        <span class="value">
+          {{ pressure }}
+        </span>
+        <span class="extraValue">
+          bar <!-- TODO: Verirficar se é BAR mesmo -->
+        </span>
+      </section>
+      <section>
+        <span class="title">
+          Vento
+        </span>
+        <span class="value">
+          {{ windSpeed.toFixed(1) }}
+        </span>
+        <span class="extraValue">
+          km/h
+        </span>
+      </section>
     </section>
   </section>
 </template>
@@ -76,9 +111,47 @@ export default {
 
 <style lang="scss" scoped>
 .weatherCard {
-  background: #f2f2f2; // TOdo: Move to vars
+  background: #f2f2f2; // TODO: Move to vars
   padding: 1rem;
 }
-// .isOffline {
-// }
+
+.time,
+.desc,
+.extraInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.extraInfo {
+  > section {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+  }
+
+  .title,
+  .extraValue {
+    font-size: 1.4rem;
+  }
+
+  .value {
+    font-size: 1.6rem;
+    font-weight: 500;
+
+    &.valuePercent {
+      &::after {
+        content: "%";
+      }
+    }
+  }
+}
+
+.temp {
+  font-size: 5rem;
+
+  &::after {
+    content: "°";
+  }
+}
 </style>

@@ -19,7 +19,7 @@
           <label for="pass">Senha</label>
           <input id="pass" v-model="password" type="password" placeholder="Senha" required>
         </section>
-        <button type="submit">
+        <button type="submit" class="btnPrimary">
           Login
         </button>
       </form>

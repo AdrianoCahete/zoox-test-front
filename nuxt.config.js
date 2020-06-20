@@ -51,7 +51,8 @@ export default {
   ],
 
   moment: {
-    defaultLocale: ['pt-br'],
+    defaultLocale: 'pt-br',
+    locale: 'pt-br',
     defaultTimezone: 'America/Sao_Paulo'
   },
 

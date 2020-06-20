@@ -1,8 +1,8 @@
 <template>
-  <div class="content">
+  <section class="content">
     <!-- Logged In -->
     <Navbar />
-    <div v-if="$store.state.auth" class="page">
+    <section v-if="$store.state.auth" class="page">
       <form method="post">
         <section class="input-content">
           <label for="cidade">Cidade</label>
@@ -17,8 +17,8 @@
           Buscar
         </button>
       </form>
-      <section v-if="weathersNext <= 0 ? '': 'isHidden'" id="weatherNext">
-        <h1>Proximos</h1>
+      <section v-if="weathersNext <= 0 ? '': 'isHidden'" id="weatherNext" class="weatherSection">
+        <h1>Proximos 5 dias</h1>
         <ul class="weatherList">
           <li v-for="weather in weathersNext" :key="weather.dt" class="item">
             <weatherCard
@@ -36,7 +36,7 @@
         </ul>
       </section>
       <!-- <section id="weatherPast" class="isHidden">
-        <h1>Anteriores</h1>
+        <h1>Últimos 5 Dias</h1>
         <ul class="weatherList">
           <li v-for="weather in weathersPast" :key="weather.cod" class="item">
             <weatherCard
@@ -53,7 +53,7 @@
           </li>
         </ul>
       </section> -->
-    </div>
+    </section>
 
     <!-- Not logged in -->
     <p v-else>
@@ -62,7 +62,7 @@
         faça login
       </NuxtLink>
     </p>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -147,6 +147,15 @@ export default {
     margin: 0 auto;
     width: 50vw;
     max-width: 300px;
+  }
+}
+
+.weatherSection {
+  margin-top: 2rem;
+  border: 1px solid #f2f2f2; // TODO: Get from Vars
+
+  > h1 {
+    background-color: #f2f2f2; // TODO: Get from Vars
   }
 }
 

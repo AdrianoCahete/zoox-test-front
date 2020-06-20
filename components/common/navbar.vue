@@ -16,8 +16,8 @@
     </section>
     <section v-if="$store.state.auth" class="userInfo">
       <!-- <userAvatar user-name="Username" /> -->
-      <nuxt-link to="/login" @click.native="logoutUser">
-        Sair
+      <nuxt-link to="/login" title="Sair" @click.native="logoutUser">
+        <Icon icon="logout" />
       </nuxt-link>
     </section>
   </section>
@@ -26,12 +26,14 @@
 <script>
 // import userAvatar from '~/components/common/userAvatar.vue'
 import Brand from '~/components/Logo.vue'
+import Icon from '~/components/common/Icon.vue'
 
 const Cookie = process.client ? require('js-cookie') : undefined
 
 export default {
   components: {
-    Brand
+    Brand,
+    Icon
   },
   data () {
     return {
@@ -70,8 +72,8 @@ export default {
     width: calc(50vw - 60px);
   }
 
-  .menu {
-    justify-content: flex-start;
+  .menu,
+  .userInfo {
 
     > a {
       padding: 1.8rem;
@@ -93,9 +95,25 @@ export default {
     }
   }
 
+  .menu {
+    justify-content: flex-start;
+  }
+
   .userInfo {
     justify-content: flex-end;
     margin-left: auto;
+
+    > a {
+      display: flex;
+
+      svg {
+        fill: inherit;
+      }
+
+      &:hover {
+        fill: currentColor;
+      }
+    }
   }
 
   .brand {
