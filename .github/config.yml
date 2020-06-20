@@ -1,2 +1,3 @@
 todo:
   exclude: "\node_modules"
+  keyword: "TODO"
