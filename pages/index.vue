@@ -2,6 +2,7 @@
   <section class="content">
     <!-- Logged In -->
     <Navbar />
+    <Alert :message="Message" :status="Status" /> <!-- TODO: Move to layout master page -->
     <section v-if="$store.state.auth" class="page">
       <form method="post">
         <section class="input-content">
@@ -13,7 +14,7 @@
             :options="['Rio de Janeiro, BR', 'Atlanta, US']"
           />
         </section>
-        <button type="button" class="btn-Full btnPrimary" @click="getNextWeather">
+        <button type="button" class="btn-Full btnPrimary" @click="getNextWeather(''); getPastWeather('-22.9035','-43.2096')">
           Buscar
         </button>
       </form>
@@ -35,10 +36,10 @@
           </li>
         </ul>
       </section>
-      <!-- <section id="weatherPast" class="isHidden">
+      <section v-if="weathersNext <= 0 ? '': 'isHidden'" id="weatherPast" class="weatherSection">
         <h1>Últimos 5 Dias</h1>
         <ul class="weatherList">
-          <li v-for="weather in weathersPast" :key="weather.cod" class="item">
+          <li v-for="weather in weathersPast" :key="weather.dt" class="item">
             <weatherCard
               :id="weather.dt"
               :date="weather.dt_txt"
@@ -52,7 +53,7 @@
             />
           </li>
         </ul>
-      </section> -->
+      </section>
     </section>
 
     <!-- Not logged in -->
@@ -67,6 +68,7 @@
 
 <script>
 import Navbar from '~/components/common/navbar.vue'
+import Alert from '~/components/common/alert.vue'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
 
 const internalAPI = {
@@ -76,6 +78,7 @@ const internalAPI = {
 
 const rapidapi = {
   nexturl: 'https://community-open-weather-map.p.rapidapi.com/forecast?q=',
+  pasturl: 'https://community-open-weather-map.p.rapidapi.com/onecall/timemachine',
   query: 'rio de janeiro, br',
   host: 'community-open-weather-map.p.rapidapi.com',
   key: '3c5851de7amsh1226b702e3157f8p1b35e8jsn633cdea0f700', // process.env.RAPIDAPI_KEY, - ¯\_(ツ)_/¯ -- É client-side, não tem como não ser pública
@@ -85,13 +88,13 @@ const rapidapi = {
 export default {
   components: {
     Navbar,
-    weatherCard
+    weatherCard,
+    Alert
   },
 
   // Default City
   data () {
     return {
-      id: '1',
       city: 'Rio de Janeiro, BR',
       countries: [],
       weathersNext: []
@@ -101,42 +104,49 @@ export default {
 
   // Get all Countries & Cities on page loading
   mounted () {
-    this.getCountry('')
+    this.getCountry(0)
   },
 
   methods: {
-    // Get all Countries to list on dropdown
+    // Get all Countries in Internal API to list on dropdown
     async getCountry ({ id }) {
-      const countries = await this.$axios.$get(internalAPI.url + '/country/' + id + '?_embed=city')
-      // const { data } = await this.$axios.$get(internalAPI.url + '/country/' + id + '?_embed=city')
+      const countryId = this.id || ''
+      const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
       // eslint-disable-next-line no-console
-      console.log(countries)
+      console.log(countries) // TODO: Send error messages to Alert Component
       // store.commit('setCountry', countries)
     },
 
+    // Next 5 Days
     // eslint-disable-next-line require-await
     async getNextWeather ({ id }) {
       this.$axios.$get(rapidapi.nexturl + rapidapi.query + '&units=metric', { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
-        // commit('setWeather', res)
         this.weathersNext = response.list
       })
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log('Error: ' + error)
+          this.Alert.Message = error // TODO: Send error messages to Alert Component
+          this.Alert.Status = error // TODO: Send error messages to Alert Component
+        })
+    },
+
+    // Last 5 Days
+    // eslint-disable-next-line require-await
+    async getPastWeather ({ lat, lon }) {
+      const latValue = lat || '-22.9035'
+      const lonValue = lon || '-43.2096'
+
+      this.$axios.$get(rapidapi.pasturl + '?&lat=' + latValue + '&lon=' + lonValue + '&dt=' + (Math.round(new Date().getTime() / 1000)) + '&units=metric', { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
+        // this.weathersPast = response.list
+        // eslint-disable-next-line no-console
+        console.log(response)
+      })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log('Error: ' + error) // TODO: Send error messages to Alert Component
         })
     }
-
-    // // eslint-disable-next-line require-await
-    // async getPastWeather ({ id }) {
-    //   this.$axios.$get(rapidapi.url + rapidapi.query, { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
-    //     // commit('setWeather', res)
-    //     this.weathersPast = response.list
-    //   })
-    //     .catch((error) => {
-    //       // eslint-disable-next-line no-console
-    //       console.log('Error: ' + error)
-    //     })
-    // }
   }
 }
 </script>

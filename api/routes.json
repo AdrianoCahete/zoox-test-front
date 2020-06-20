@@ -1,3 +1,4 @@
 {
-  "/country/\\?id=:id?_embed=city": "/countryExp/:id"
+  "/country/id=:id?_embed=city": "/countryExp/:id",
+  "/country/?_embed=city": "/country/0"
 }
