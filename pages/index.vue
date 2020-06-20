@@ -17,20 +17,21 @@
           Buscar
         </button>
       </form>
-      <section id="weatherNext">
+      <section v-if="weathersNext <= 0 ? '': 'isHidden'" id="weatherNext">
         <h1>Proximos</h1>
         <ul class="weatherList">
-          <li v-for="weather in weathersNext" :key="weather.cod" class="item">
-            <div :id="weather.cod">
-              <!-- <p>dt: {{ weather.dt }}</p> -->
-              <p>data: {{ weather.dt_txt }}</p>
-              <p>temp: {{ weather.main.temp }}</p>
-              <p>umidade: {{ weather.main.humidity }}</p>
-              <p>pressao: {{ weather.main.pressure }}</p>
-              <p>nuvens: {{ weather.clouds.all }}</p>
-              <p>vento: {{ weather.wind.speed }} @ {{ weather.wind.deg }}º</p>
-              <p>clima: {{ weather.weather[0].main }}</p>
-            </div>
+          <li v-for="weather in weathersNext" :key="weather.dt" class="item">
+            <weatherCard
+              :id="weather.dt"
+              :date="weather.dt_txt"
+              :temp="weather.main.temp"
+              :humidity="weather.main.humidity"
+              :pressure="weather.main.pressure"
+              :clouds="weather.clouds.all"
+              :wind-speed="weather.wind.speed"
+              :wind-deg="weather.wind.deg"
+              :weather-desc="weather.weather[0].main"
+            />
           </li>
         </ul>
       </section>
@@ -38,16 +39,17 @@
         <h1>Anteriores</h1>
         <ul class="weatherList">
           <li v-for="weather in weathersPast" :key="weather.cod" class="item">
-            <div :id="weather.cod">
-              <p>dt: {{ weather.dt }}</p>
-              <p>data: {{ weather.dt_txt }}</p>
-              <p>temp: {{ weather.dt_txt }}</p>
-              <p>umidade: {{ weather.dt_txt }}</p>
-              <p>pressao: {{ weather.dt_txt }}</p>
-              <p>nuvens: {{ weather.dt_txt }}</p>
-              <p>vento: {{ weather.dt_txt }}</p>
-              <p>clima: {{ weather.dt_txt }}</p>
-            </div>
+            <weatherCard
+              :id="weather.dt"
+              :date="weather.dt_txt"
+              :temp="weather.main.temp"
+              :humidity="weather.main.humidity"
+              :pressure="weather.main.pressure"
+              :clouds="weather.clouds.all"
+              :wind-speed="weather.wind.speed"
+              :wind-deg="weather.wind.deg"
+              :weather-desc="weather.weather[0].main"
+            />
           </li>
         </ul>
       </section> -->
@@ -65,6 +67,7 @@
 
 <script>
 import Navbar from '~/components/common/navbar.vue'
+import weatherCard from '~/components/common/weather/weatherCard.vue'
 
 const internalAPI = {
   url: process.env.INTERNAL_API_URL || 'http://localhost:3001',
@@ -81,7 +84,8 @@ const rapidapi = {
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    weatherCard
   },
 
   // Default City
@@ -97,7 +101,7 @@ export default {
 
   // Get all Countries & Cities on page loading
   mounted () {
-    this.getCountry()
+    this.getCountry('')
   },
 
   methods: {
@@ -112,7 +116,7 @@ export default {
 
     // eslint-disable-next-line require-await
     async getNextWeather ({ id }) {
-      this.$axios.$get(rapidapi.nexturl + rapidapi.query, { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
+      this.$axios.$get(rapidapi.nexturl + rapidapi.query + '&units=metric', { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
         // commit('setWeather', res)
         this.weathersNext = response.list
       })
@@ -153,13 +157,10 @@ export default {
   overflow-x: auto;
   overflow-y: hidden;
   max-height: 50vh;
-  padding: 0;
+  padding: 1rem;
 
   .item {
     list-style: none;
-    margin: 0;
-    padding: 0 2rem;
-    background: #f2f2f2;
     margin: 0 1rem;
     min-width: 200px;
   }

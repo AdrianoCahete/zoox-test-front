@@ -37,3 +37,4 @@ Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha).
 
 ## ToDo:
 - Deploy da API pro Heroku
+- Mover o Auth pro Firebase

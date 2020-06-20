@@ -50,11 +50,17 @@ export default {
   plugins: [
   ],
 
+  moment: {
+    defaultLocale: ['pt-br'],
+    defaultTimezone: 'America/Sao_Paulo'
+  },
+
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/device'
+    '@nuxtjs/device',
     // '@nuxtjs/pwa' // The 'request' argument must be string. Received type undefined
+    '@nuxtjs/moment'
   ],
 
   modules: [
