@@ -1,7 +1,7 @@
 # Zoox Test Front
 > Projeto de Avaliação UX, UI & Front-End
 
-~~Deploy automático para o Netlify: https://zoox-test-202006.netlify.app/  ~~
+~~Deploy automático para o Netlify: https://zoox-test-202006.netlify.app/~~  
 Deploy automático removido até eu ter uma API pública interna rodando.
 
 
