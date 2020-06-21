@@ -1,7 +1,6 @@
 <template>
   <section class="content">
     <!-- Logged In -->
-    <Navbar />
     <!-- <Alert :message="Message" :status="Status" /> --> <!-- TODO: Move to layout master page -->
     <section v-if="$store.state.auth" class="page">
       <form method="post">
@@ -70,7 +69,6 @@
 
 <script>
 import moment from 'moment'
-import Navbar from '~/components/common/navbar.vue'
 // import Alert from '~/components/common/alert.vue'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
 
@@ -89,7 +87,6 @@ const rapidapi = {
 
 export default {
   components: {
-    Navbar,
     weatherCard
     // Alert
   },

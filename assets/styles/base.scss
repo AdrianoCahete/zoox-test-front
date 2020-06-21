@@ -99,6 +99,11 @@ a {
   margin: 2rem;
   padding-top: 7rem; // Get from vars (and navbar height)
   animation: fadeIn 1s ease-in;
+
+  &.pageList {
+    margin-left: 0;
+    text-align: left;
+  }
 }
 
 // @media (max-width: 1024px) {

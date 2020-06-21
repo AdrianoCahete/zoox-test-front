@@ -1,16 +1,15 @@
 <template>
   <div class="content">
     <!-- Logged In -->
-    <Navbar />
     <div v-if="$store.state.auth" class="page pageList">
       <section>
         <section class="table">
           <h1>Lista</h1>
           <!-- TODO: Get real data -->
           <section class="tableActions">
-            <button class="btnCreate">
+            <nuxt-link to="/config/create" class="btnAdd" exact>
               Criar
-            </button>
+            </nuxt-link>
           </section>
           <table>
             <thead>
@@ -127,23 +126,14 @@
 </template>
 
 <script>
-// import Logo from '~/components/Logo.vue'
-import Navbar from '~/components/common/navbar.vue'
-
 export default {
   components: {
-    Navbar
   }
 }
 </script>
 
 <style lang="scss" scoped>
-// TODO: Move to Global scope
-.pageList {
-  margin-left: 0;
-  text-align: left;
-}
-
+// TODO: Move to Table component
 table {
   width: 100%;
   border: 1px solid #ccc;

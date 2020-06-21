@@ -5,7 +5,7 @@
         Home
       </nuxt-link>
       <nuxt-link to="/config">
-        Config
+        Configuração <!-- TODO: Move to Icon (move to right side?) -->
       </nuxt-link>
       <!-- <nuxt-link v-if="isDevMode" to="/debug">
         Test
