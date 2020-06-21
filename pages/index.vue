@@ -12,7 +12,7 @@
             :options="['Rio de Janeiro, BR', 'Atlanta, US']"
           />
         </section>
-        <button type="button" class="btn-Full btnPrimary" @click="getPastWeather('-22.9035','-43.2096')">
+        <button type="button" class="btn-Full btnPrimary" @click="getPastWeather('-22.9035','-43.2096', 5)">
           <!-- <button type="button" class="btn-Full btnPrimary" @click="getNextWeather('rio de janeiro, br'); getPastWeather('-22.9035','-43.2096')"> -->
           Buscar
         </button>
@@ -30,7 +30,7 @@
               :clouds="weather.clouds.all"
               :wind-speed="weather.wind.speed"
               :wind-deg="weather.wind.deg"
-              :weather-desc="weather.weather[0].main"
+              :weather-desc="weather.weather[0].description"
             />
           </li>
         </ul>
@@ -67,18 +67,22 @@
 </template>
 
 <script>
-import moment from 'moment'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
 
+const API = {
+  internal: process.env.INTERNAL_API_URL || 'http://localhost:3001',
+  rapidapi: 'community-open-weather-map.p.rapidapi.com'
+}
+
 const internalAPI = {
-  url: process.env.INTERNAL_API_URL || 'http://localhost:3001',
+  url: API.internal,
   city: ''
 }
 
-const rapidapi = {
-  nexturl: 'https://community-open-weather-map.p.rapidapi.com/forecast?q=',
-  pasturl: 'https://community-open-weather-map.p.rapidapi.com/onecall/timemachine',
-  host: 'community-open-weather-map.p.rapidapi.com',
+const rapid = {
+  nexturl: 'https://' + API.rapidapi + '/forecast?q=',
+  pasturl: 'https://' + API.rapidapi + '/onecall/timemachine',
+  host: API.rapidapi,
   key: '3c5851de7amsh1226b702e3157f8p1b35e8jsn633cdea0f700', // process.env.RAPIDAPI_KEY, - ¯\_(ツ)_/¯ -- É client-side, não tem como não ser pública
   useQueryString: true
 }
@@ -91,6 +95,7 @@ export default {
   // Default City
   data () {
     return {
+      locale: 'pt-br',
       city: 'Rio de Janeiro, BR',
       countries: [],
       weathersNext: [],
@@ -101,7 +106,6 @@ export default {
   // Get all Countries & Cities on page loading
   mounted () {
     this.getCountry(0)
-    this.getPrevDates(5)
   },
 
   methods: {
@@ -115,31 +119,32 @@ export default {
     },
 
     // Get Past X days in Epoch
-    // eslint-disable-next-line require-await
-    async getPrevDates ({ dates }) {
+    getPrevDates ({ dates }) {
       const d = dates
       const today = new Date()
-      // eslint-disable-next-line no-unused-vars
-      let res = ''
+      const res = []
 
       let i = 0
+      // 86400  is a day in Epoch time
       for (i; i < d; i++) {
-        res += moment(today).subtract(d, 'days').calendar()
+        res.push(Math.round(today - (86400 * i)))
       }
+
       // eslint-disable-next-line no-console
-      console.log(res)
+      console.log(res.join(','))
+      return res.join(',')
     },
 
     // Get Weather for the next 5 Days
-    // eslint-disable-next-line require-await
     async getNextWeather ({ city }) {
       const c = city || 'rio de janeiro, br'
-      this.$axios.$get(
-        rapidapi.nexturl +
+      await this.$axios.$get(
+        rapid.nexturl +
         c +
-        '&lang=pt' +
+        '&lang=pt_br' +
+        '&exclude=hourly' + // TODO: This is a test
         '&units=metric',
-        { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
+        { headers: { 'x-rapidapi-host': rapid.host, 'x-rapidapi-key': rapid.key, useQueryString: rapid.useQueryString } }).then((response) => {
         this.weathersNext = response.list
       })
         .catch((error) => {
@@ -151,21 +156,37 @@ export default {
     },
 
     // Get Weather for the last X Days (Epoch times needs to be passed in 'dt' key)
-    // eslint-disable-next-line require-await
-    async getPastWeather ({ lat, lon }) {
+    async getPastWeather ({ lat, lon, pastDays }) {
       const latValue = lat || '-22.9035'
       const lonValue = lon || '-43.2096'
-      const today = new Date()
+      const numDays = pastDays || 5
 
-      this.$axios.$get(
-        rapidapi.pasturl +
+      const today = (new Date().getTime() / 1000) // (Math.round(today.getTime() / 1000))
+      // const prevDays = this.getPrevDates(numDays)
+
+      // TODO: Use getPrevDates instead
+      const pDays = []
+
+      let i = 0
+      // 86400  is a day in Epoch time
+      for (i; i < numDays; i++) {
+        pDays.push(Math.round(today - (86400 * i)))
+      }
+
+      pDays.join(',')
+      // eslint-disable-next-line no-console
+      console.log(pDays)
+
+      await this.$axios.$get(
+        rapid.pasturl +
         '?&lat=' + latValue +
         '&lon=' + lonValue +
-        '&lang=pt' +
+        '&lang=pt_br' +
         '&units=metric' +
-        '&dt=' + (Math.round(today.getTime() / 1000)) + ',' +
-        (Math.round(today.getTime() / 1000)), // TODO: Move to getPrevDates function
-        { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
+        '&exclude=hourly' +
+        // '&dt=' + prevDays,
+        '&dt=' + pDays,
+        { headers: { 'x-rapidapi-host': rapid.host, 'x-rapidapi-key': rapid.key, useQueryString: rapid.useQueryString } }).then((response) => {
         this.weathersPast = response.current
         // eslint-disable-next-line no-console
         console.log(response)

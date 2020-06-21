@@ -21,18 +21,18 @@ export default {
   },
 
   manifest: {
-    name: 'Zoox Test',
+    name: process.env.npm_package_name,
     short_name: 'Adriano Cahete',
     description: '',
-    theme_color: '#172b4d'
+    theme_color: process.env.npm_package_primaryColor
   },
 
   meta: {
     mobileAppIOS: true,
-    appleStatusBarStyle: '#172b4d'
+    appleStatusBarStyle: process.env.npm_package_primaryColor
   },
 
-  loading: { color: '#172b4d' },
+  loading: { color: process.env.npm_package_primaryColor },
 
   pageTransition: {
     name: 'page',

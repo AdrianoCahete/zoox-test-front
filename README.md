@@ -41,3 +41,4 @@ Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha).
 - Mover o Auth pro Firebase
 - Corrigir o Portal em devices realmente pequenos (menor que 680h ou 120w)
 - Corrigir a Index em devices realmente pequenos (menor que 430h ou 350w)
+- Tratar modo offline

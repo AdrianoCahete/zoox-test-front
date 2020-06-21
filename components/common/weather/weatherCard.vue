@@ -165,6 +165,10 @@ export default {
   }
 }
 
+.desc {
+  text-transform: capitalize;
+}
+
 .isPast {
   .time {
     justify-content: flex-end;
