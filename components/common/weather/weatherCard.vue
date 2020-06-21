@@ -1,8 +1,12 @@
 <template>
-  <section :id="id" :class="'weatherCard ' + weatherDesc.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight' : ' timeDay')">
+  <section :id="id" :class="'weatherCard ' + weatherDesc.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ' timeDay ') + type">
     <section class="time">
-      <span>{{ $moment(date).format('HH') }}h</span>
-      <span>{{ $moment(date).format('DD MMMM') }}</span>
+      <span v-if="type == 'isFuture'">
+        {{ $moment(date).format('HH') }}h
+      </span>
+      <span>
+        {{ $moment(date).format('DD MMMM') }}
+      </span>
     </section>
     <section class="temp">
       <span>
@@ -35,7 +39,7 @@
           {{ pressure }}
         </span>
         <span class="extraValue">
-          bar <!-- TODO: Verirficar se é BAR mesmo -->
+          bar <!-- TODO: Verify if it's really 'bar' -->
         </span>
       </section>
       <section>
@@ -57,11 +61,16 @@
 export default {
   props: {
     id: {
-      type: String,
+      type: [Number, String],
       required: true
     },
+    type: {
+      type: String,
+      required: false,
+      default: 'isFuture'
+    },
     date: {
-      type: Date,
+      type: [Date, String, Number],
       required: true,
       default: ''
     },
@@ -142,6 +151,7 @@ export default {
     &.valuePercent {
       &::after {
         content: "%";
+        font-weight: normal;
       }
     }
   }
@@ -152,6 +162,12 @@ export default {
 
   &::after {
     content: "°";
+  }
+}
+
+.isPast {
+  .time {
+    justify-content: flex-end;
   }
 }
 </style>
