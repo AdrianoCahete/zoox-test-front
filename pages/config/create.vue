@@ -1,7 +1,6 @@
 <template>
   <div class="content">
     <!-- Logged In -->
-    <Navbar />
     <div v-if="$store.state.auth" class="page pageList">
       <section class="table">
         <h1>Criar</h1>

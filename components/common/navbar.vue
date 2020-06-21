@@ -1,7 +1,7 @@
 <template>
   <section :class="$device.isMobile ? 'navbar navbarMobile' : 'navbar'">
     <nav v-if="$store.state.auth" id="nav" class="menu">
-      <nuxt-link to="/">
+      <nuxt-link to="/" exact>
         Home
       </nuxt-link>
       <nuxt-link to="/config">
@@ -87,7 +87,8 @@ export default {
       }
     }
 
-    .nuxt-link-exact-active {
+    .nuxt-link-exact-active,
+    .nuxt-link-active {
       color: var(--navItemActive);
       font-weight: bold;
       pointer-events: none;

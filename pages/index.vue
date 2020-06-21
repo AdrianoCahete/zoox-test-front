@@ -1,7 +1,6 @@
 <template>
   <section class="content">
     <!-- Logged In -->
-    <!-- <Alert :message="Message" :status="Status" /> --> <!-- TODO: Move to layout master page -->
     <section v-if="$store.state.auth" class="page">
       <form method="post">
         <section class="input-content">
@@ -39,7 +38,7 @@
       <section v-if="weathersPast <= 0 ? '': 'isHidden'" id="weatherPast" class="weatherSection">
         <h1>Últimos 5 Dias</h1>
         <ul class="weatherList">
-          <li v-for="weather in weathersPast.hourly" :key="weather.dt" class="item">
+          <li v-for="weather in weathersPast" :key="weather.dt" class="item">
             <weatherCard
               :id="weather.dt"
               type="isPast"
@@ -69,7 +68,6 @@
 
 <script>
 import moment from 'moment'
-// import Alert from '~/components/common/alert.vue'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
 
 const internalAPI = {
@@ -88,7 +86,6 @@ const rapidapi = {
 export default {
   components: {
     weatherCard
-    // Alert
   },
 
   // Default City
@@ -169,7 +166,7 @@ export default {
         '&dt=' + (Math.round(today.getTime() / 1000)) + ',' +
         (Math.round(today.getTime() / 1000)), // TODO: Move to getPrevDates function
         { headers: { 'x-rapidapi-host': rapidapi.host, 'x-rapidapi-key': rapidapi.key, useQueryString: rapidapi.useQueryString } }).then((response) => {
-        this.weathersPast = response
+        this.weathersPast = response.current
         // eslint-disable-next-line no-console
         console.log(response)
       })

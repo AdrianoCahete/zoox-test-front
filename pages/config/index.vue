@@ -7,7 +7,7 @@
           <h1>Lista</h1>
           <!-- TODO: Get real data -->
           <section class="tableActions">
-            <nuxt-link to="/config/create" class="btnAdd" exact>
+            <nuxt-link to="/config/create" class="btnAdd">
               Criar
             </nuxt-link>
           </section>
