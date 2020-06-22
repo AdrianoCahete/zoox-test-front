@@ -101,7 +101,7 @@ export default {
     },
     weatherStatus: {
       type: String,
-      default: null
+      default: ''
     },
     weatherDesc: {
       type: String,
@@ -160,6 +160,7 @@ export default {
 
 .desc {
   text-transform: capitalize;
+  margin: 1rem 0;
 }
 
 .isPast {

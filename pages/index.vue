@@ -49,9 +49,9 @@
               :clouds="weather.clouds"
               :wind-speed="weather.wind_speed"
               :wind-deg="weather.wind_deg"
-              :weather-desc="weather.weather[0].description"
-              :weather-status="weather.weather[0].main"
             />
+              <!-- :weather-status="weather.weather.main"
+              :weather-desc="weather.weather.description" -->
           </li>
         </ul>
       </section>
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
 
 const API = {
@@ -155,7 +156,7 @@ export default {
       const lonValue = lon || '-43.2096'
       const numDays = pastDays || 1
 
-      const today = (new Date().getTime() / 1000) // (Math.round(today.getTime() / 1000))
+      const today = moment().unix() // (Math.round(today.getTime() / 1000))
       // const prevDays = this.getPrevDates(numDays)
 
       // TODO: Use getPrevDates instead
@@ -173,17 +174,16 @@ export default {
 
       await this.$axios.$get(
         rapid.pasturl +
-        '?&lat=' + latValue +
+        '?lat=' + latValue +
         '&lon=' + lonValue +
         '&lang=pt_br' +
         '&units=metric' +
-        // '&dt=' + prevDays,
-        '&exclude=hourly,minutely' +
+        '&exclude=hourly' +
         '&dt=' + pDays,
         { headers: { 'x-rapidapi-host': rapid.host, 'x-rapidapi-key': rapid.key, useQueryString: rapid.useQueryString } }).then((response) => {
         // eslint-disable-next-line no-console
         console.log(response)
-        this.weathersPast = response.hourly // response.current = actual / response.hourly = 3 hourly / response = all
+        this.weathersPast = response.current // response.current = actual / response.hourly = 3 hourly / response = all
       })
         .catch((error) => {
           // eslint-disable-next-line no-console
