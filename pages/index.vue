@@ -30,6 +30,7 @@
               :wind-speed="weather.wind.speed"
               :wind-deg="weather.wind.deg"
               :weather-desc="weather.weather[0].description"
+              :weather-status="weather.weather[0].main"
             />
           </li>
         </ul>
@@ -48,21 +49,17 @@
               :clouds="weather.clouds"
               :wind-speed="weather.wind_speed"
               :wind-deg="weather.wind_deg"
+              :weather-desc="weather.weather[0].description"
+              :weather-status="weather.weather[0].main"
             />
           </li>
         </ul>
       </section>
     </section>
-
-    <!-- Not logged in -->
-    <section v-else>
-      <goToLogin message="Por favor, faça login" />
-    </section>
   </section>
 </template>
 
 <script>
-import goToLogin from '~/components/common/auth/goToLogin.vue'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
 
 const API = {
@@ -84,8 +81,9 @@ const rapid = {
 }
 
 export default {
+  middleware: 'authenticated',
+
   components: {
-    goToLogin,
     weatherCard
   },
 
@@ -122,9 +120,8 @@ export default {
       const res = []
 
       let i = 0
-      // 86400  is a day in Epoch time
       for (i; i < d; i++) {
-        res.push(Math.round(today - (86400 * i)))
+        res.push(Math.round(today - (86400 * i))) // 86400  is a day in Epoch time
       }
 
       // eslint-disable-next-line no-console
@@ -180,13 +177,13 @@ export default {
         '&lon=' + lonValue +
         '&lang=pt_br' +
         '&units=metric' +
-        '&exclude=hourly' +
         // '&dt=' + prevDays,
+        '&exclude=hourly,minutely' +
         '&dt=' + pDays,
         { headers: { 'x-rapidapi-host': rapid.host, 'x-rapidapi-key': rapid.key, useQueryString: rapid.useQueryString } }).then((response) => {
-        this.weathersPast = response.current
         // eslint-disable-next-line no-console
         console.log(response)
+        this.weathersPast = response.hourly // response.current = actual / response.hourly = 3 hourly / response = all
       })
         .catch((error) => {
           // eslint-disable-next-line no-console

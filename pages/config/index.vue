@@ -114,20 +114,14 @@
         </section>
       </section>
     </div>
-
-    <!-- Not logged in -->
-    <section v-else>
-      <goToLogin />
-    </section>
   </div>
 </template>
 
 <script>
-import goToLogin from '~/components/common/auth/goToLogin.vue'
-
 export default {
+  middleware: 'authenticated',
+
   components: {
-    goToLogin
   }
 }
 </script>

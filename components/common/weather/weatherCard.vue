@@ -1,8 +1,8 @@
 <template>
-  <section :id="id" :class="'weatherCard ' + weatherDesc.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ' timeDay ') + type">
+  <section :id="id" :class="'weatherCard ' + 'weatherStatus-' + weatherStatus.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ' timeDay ')">
     <section class="time">
-      <span v-if="type == 'isFuture'">
-        {{ $moment(date).format('HH') }}h
+      <span> <!-- v-if="type == 'isFuture'" -->
+        {{ $moment(date).format('HH:MM:SS') }}
       </span>
       <span>
         {{ $moment(date).format('DD MMMM') }}
@@ -28,7 +28,7 @@
           {{ humidity }}
         </span>
         <span class="extraValue">
-          <section :data-progress="humidity" /> <!-- TODO: Move to custom component -->
+          <section class="input-progress" :data-progress="humidity" /> <!-- TODO: Move to custom component -->
         </span>
       </section>
       <section>
@@ -72,7 +72,7 @@ export default {
     date: {
       type: [Date, String, Number],
       required: true,
-      default: ''
+      default: null
     },
     temp: {
       type: Number,
@@ -99,22 +99,15 @@ export default {
       type: Number,
       default: 0
     },
+    weatherStatus: {
+      type: String,
+      default: null
+    },
     weatherDesc: {
       type: String,
-      default: ''
+      default: null
     }
   }
-
-  // methods: {
-  //   // Get time of the day and convert to human readable format
-  //   // eslint-disable-next-line require-await
-  //   async convertToHumanTime ({ time }) {
-  //     const srcTime = time
-
-  //     // eslint-disable-next-line no-console
-  //     console.log(srcTime)
-  //   }
-  // }
 }
 </script>
 
