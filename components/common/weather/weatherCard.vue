@@ -1,8 +1,8 @@
 <template>
-  <section :id="id" :class="'weatherCard ' + 'weatherStatus-' + weatherStatus.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ' timeDay ')">
+  <section :id="id" :class="'weatherCard ' + 'weatherStatus-' + weatherStatus.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ' timeDay ') + type">
     <section class="time">
-      <span> <!-- v-if="type == 'isFuture'" -->
-        {{ $moment(date).format('HH:MM:SS') }}
+      <span v-if="type == 'isFuture'">
+        {{ $moment(date).format('HH') }}h
       </span>
       <span>
         {{ $moment(date).format('DD MMMM') }}

@@ -19,18 +19,18 @@
       <section v-if="weathersNext <= 0 ? '': 'isHidden'" id="weatherNext" class="weatherSection">
         <h1>Proximos 5 dias</h1>
         <ul class="weatherList">
-          <li v-for="weather in weathersNext" :key="weather.dt" class="item">
+          <li v-for="w in weathersNext" :key="w.dt" class="item">
             <weatherCard
-              :id="weather.dt"
-              :date="weather.dt_txt"
-              :temp="weather.main.temp"
-              :humidity="weather.main.humidity"
-              :pressure="weather.main.pressure"
-              :clouds="weather.clouds.all"
-              :wind-speed="weather.wind.speed"
-              :wind-deg="weather.wind.deg"
-              :weather-desc="weather.weather[0].description"
-              :weather-status="weather.weather[0].main"
+              :id="w.dt"
+              :date="w.dt_txt"
+              :temp="w.main.temp"
+              :humidity="w.main.humidity"
+              :pressure="w.main.pressure"
+              :clouds="w.clouds.all"
+              :wind-speed="w.wind.speed"
+              :wind-deg="w.wind.deg"
+              :weather-desc="w.weather[0].description"
+              :weather-status="w.weather[0].main"
             />
           </li>
         </ul>
@@ -38,20 +38,18 @@
       <section v-if="weathersPast <= 0 ? '': 'isHidden'" id="weatherPast" class="weatherSection">
         <h1>Últimos 5 Dias</h1>
         <ul class="weatherList">
-          <li v-for="weather in weathersPast" :key="weather.dt" class="item">
+          <li v-for="w in weathersPast.hourly.slice(0, 1)" :key="w.dt" class="item">
             <weatherCard
-              :id="weather.dt"
+              :id="w.dt"
               type="isPast"
-              :date="weather.dt"
-              :temp="weather.temp"
-              :humidity="weather.humidity"
-              :pressure="weather.pressure"
-              :clouds="weather.clouds"
-              :wind-speed="weather.wind_speed"
-              :wind-deg="weather.wind_deg"
+              :date="w.dt"
+              :temp="w.temp"
+              :humidity="w.humidity"
+              :pressure="w.pressure"
+              :clouds="w.clouds"
+              :wind-speed="w.wind_speed"
+              :wind-deg="w.wind_deg"
             />
-              <!-- :weather-status="weather.weather.main"
-              :weather-desc="weather.weather.description" -->
           </li>
         </ul>
       </section>
@@ -130,7 +128,7 @@ export default {
       return res.join(',')
     },
 
-    // Get Weather for the next 5 Days
+    // Get Weather for the NEXT 5 Days
     async getNextWeather ({ city }) {
       const c = city || 'rio de janeiro, br'
       await this.$axios.$get(
@@ -150,7 +148,7 @@ export default {
         })
     },
 
-    // Get Weather for the last X Days (Epoch times needs to be passed in 'dt' key)
+    // Get Weather for the PAST X Days (Epoch times needs to be passed in 'dt' key)
     async getPastWeather ({ lat, lon, pastDays }) {
       const latValue = lat || '-22.9035'
       const lonValue = lon || '-43.2096'
@@ -166,6 +164,7 @@ export default {
       // 86400  is a day in Epoch time
       for (i; i < numDays; i++) {
         pDays.push(Math.round(today - (86400 * i)))
+        // TODO: Move API request to here and append to array
       }
 
       pDays.join(',')
@@ -183,7 +182,7 @@ export default {
         { headers: { 'x-rapidapi-host': rapid.host, 'x-rapidapi-key': rapid.key, useQueryString: rapid.useQueryString } }).then((response) => {
         // eslint-disable-next-line no-console
         console.log(response)
-        this.weathersPast = response.current // response.current = actual / response.hourly = 3 hourly / response = all
+        this.weathersPast = response // response.current = actual / response.hourly = 3 hourly / response = all
       })
         .catch((error) => {
           // eslint-disable-next-line no-console

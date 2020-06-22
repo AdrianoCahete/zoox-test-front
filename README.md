@@ -35,7 +35,7 @@ O site dado traduz pra português até os códigos, acabei usando a [Wikipedia](
 - Auth não está funcionando.  
 Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha).
 
-- A API de "Past 5 Days" tá retornando erro quando mais de uma data anterior é passada. Não acho que fazer 5 request é uma resolução elegante.
+- API Interna não é versionada porque né...
 
 
 ## ToDo:
