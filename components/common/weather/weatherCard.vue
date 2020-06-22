@@ -1,5 +1,5 @@
 <template>
-  <section :id="id" :class="'weatherCard ' + 'weatherStatus-' + weatherStatus.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ' timeDay ') + type">
+  <section :id="id" :class="'weatherCard ' + 'weatherStatus-' + weatherStatus.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ($moment(date).format('HH') < 6 ? ' timeNight ': ' timeDay ')) + type">
     <section class="time">
       <span v-if="type == 'isFuture'">
         {{ $moment(date).format('HH') }}h
@@ -15,7 +15,7 @@
     </section>
     <section class="desc">
       <span>{{ weatherDesc }}</span>
-      <span v-if="clouds < 1 ? '': 'isHidden'" class="value valuePercent">
+      <span v-if="clouds > 1" class="value valuePercent">
         {{ clouds }}
       </span>
     </section>
@@ -39,7 +39,7 @@
           {{ pressure }}
         </span>
         <span class="extraValue">
-          bar <!-- TODO: Verify if it's really 'bar' -->
+          bar
         </span>
       </section>
       <section>
@@ -113,8 +113,24 @@ export default {
 
 <style lang="scss" scoped>
 .weatherCard {
-  background: #f2f2f2; // TODO: Move to vars
   padding: 1rem;
+  border-radius: 4px;
+}
+
+.weatherStatus {
+  &-clear {
+
+  }
+}
+
+// Time of the Day
+.timeDay {
+  background-color: #f2f2f2; // TODO: Move to vars
+}
+
+.timeNight {
+  background-color: #1c2632;  // TODO: Move to vars
+  color: #ffffff;
 }
 
 .time,

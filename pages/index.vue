@@ -16,7 +16,7 @@
           Buscar
         </button>
       </form>
-      <section v-if="weathersNext <= 0 ? '': 'isHidden'" id="weatherNext" class="weatherSection">
+      <section v-if="weathersNext => 0" id="weatherNext" class="weatherSection">
         <h1>Proximos 5 dias</h1>
         <ul class="weatherList">
           <li v-for="w in weathersNext" :key="w.dt" class="item">
@@ -35,7 +35,7 @@
           </li>
         </ul>
       </section>
-      <section v-if="weathersPast <= 0 ? '': 'isHidden'" id="weatherPast" class="weatherSection">
+      <section v-if="weathersPast => 0" id="weatherPast" class="weatherSection">
         <h1>Últimos 5 Dias</h1>
         <ul class="weatherList">
           <li v-for="w in weathersPast.hourly.slice(0, 1)" :key="w.dt" class="item">
