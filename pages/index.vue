@@ -12,8 +12,7 @@
             :options="['Rio de Janeiro, BR', 'Atlanta, US']"
           />
         </section>
-        <button type="button" class="btn-Full btnPrimary" @click="getPastWeather('-22.9035','-43.2096', 5)">
-          <!-- <button type="button" class="btn-Full btnPrimary" @click="getNextWeather('rio de janeiro, br'); getPastWeather('-22.9035','-43.2096')"> -->
+        <button type="button" class="btn-Full btnPrimary" @click="getNextWeather('rio de janeiro, br'); getPastWeather('-22.9035','-43.2096')">
           Buscar
         </button>
       </form>
@@ -49,7 +48,6 @@
               :clouds="weather.clouds"
               :wind-speed="weather.wind_speed"
               :wind-deg="weather.wind_deg"
-              :weather-desc="weather.weather.description"
             />
           </li>
         </ul>
@@ -57,16 +55,14 @@
     </section>
 
     <!-- Not logged in -->
-    <p v-else>
-      Por favor
-      <NuxtLink to="/login">
-        faça login
-      </NuxtLink>
-    </p>
+    <section v-else>
+      <goToLogin message="Por favor, faça login" />
+    </section>
   </section>
 </template>
 
 <script>
+import goToLogin from '~/components/common/auth/goToLogin.vue'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
 
 const API = {
@@ -89,6 +85,7 @@ const rapid = {
 
 export default {
   components: {
+    goToLogin,
     weatherCard
   },
 
@@ -120,7 +117,7 @@ export default {
 
     // Get Past X days in Epoch
     getPrevDates ({ dates }) {
-      const d = dates
+      const d = dates || 1
       const today = new Date()
       const res = []
 
@@ -159,7 +156,7 @@ export default {
     async getPastWeather ({ lat, lon, pastDays }) {
       const latValue = lat || '-22.9035'
       const lonValue = lon || '-43.2096'
-      const numDays = pastDays || 5
+      const numDays = pastDays || 1
 
       const today = (new Date().getTime() / 1000) // (Math.round(today.getTime() / 1000))
       // const prevDays = this.getPrevDates(numDays)

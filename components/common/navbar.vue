@@ -16,7 +16,7 @@
     </section>
     <section v-if="$store.state.auth" class="userInfo">
       <!-- <userAvatar user-name="Username" /> -->
-      <nuxt-link to="/login" title="Sair" @click.native="logoutUser">
+      <nuxt-link to="/logout" title="Sair" @click.native="logoutUser">
         <Icon icon="logout" />
       </nuxt-link>
     </section>
@@ -44,7 +44,7 @@ export default {
     logoutUser () {
       Cookie.remove('auth')
       this.$store.commit('setAuth', null)
-      this.$router.push('/login')
+      this.$router.push('/portal')
     }
   }
 }

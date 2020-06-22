@@ -63,7 +63,7 @@ export default {
 
     async userLogin () {
       try {
-        const response = await this.$axios.$post('/login', { email: this.data.login.email, password: this.data.login.password })
+        const response = await this.$axios.$post('/portal', { email: this.data.login.email, password: this.data.login.password })
         // eslint-disable-next-line no-console
         console.log(response)
       } catch (err) {
@@ -76,7 +76,7 @@ export default {
     async userLogout () {
       await this.$auth.logout()
       this.$store.commit('setAuth', null)
-      this.$router.push('/login')
+      this.$router.push('/portal')
     }
   }
 }

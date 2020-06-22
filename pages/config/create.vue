@@ -11,18 +11,18 @@
     </div>
 
     <!-- Not logged in -->
-    <div v-else>
-      <p>Você não tem permissão para acessar esta página.</p>
-      <NuxtLink to="/login">
-        Clique aqui para fazer login
-      </NuxtLink>
-    </div>
+    <section v-else>
+      <goToLogin />
+    </section>
   </div>
 </template>
 
 <script>
+import goToLogin from '~/components/common/auth/goToLogin.vue'
+
 export default {
   components: {
+    goToLogin
   }
 }
 </script>
