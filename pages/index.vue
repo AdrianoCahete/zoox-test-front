@@ -19,9 +19,9 @@
               {{ citySelected.name }}, {{ citySelected.country }}
             </template>
           </multiselect>
-          <span>{{ citySelected }}</span>
+          <!-- <span>{{ citySelected.name }}, {{ citySelected.country }}</span> -->
         </section>
-        <button type="button" class="btn-Full btnPrimary" @click="getNextWeather('rio de janeiro, br'); getPastWeather('-22.9035','-43.2096')">
+        <button type="button" class="btn-Full btnPrimary" @click="getNextWeather(citySelected.name,citySelected.country); getPastWeather('-22.9035','-43.2096')">
           Buscar
         </button>
       </form>
@@ -65,26 +65,10 @@
 </template>
 
 <script>
+// eslint-disable-next-line node/no-deprecated-api
 import moment from 'moment'
+import { internalAPI, rapid } from '~/constants.js'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
-
-const API = {
-  internal: process.env.INTERNAL_API_URL || 'http://localhost:3001',
-  rapidapi: 'community-open-weather-map.p.rapidapi.com'
-}
-
-const internalAPI = {
-  url: API.internal,
-  city: ''
-}
-
-const rapid = {
-  nexturl: 'https://' + API.rapidapi + '/forecast?q=',
-  pasturl: 'https://' + API.rapidapi + '/onecall/timemachine',
-  host: API.rapidapi,
-  key: '3c5851de7amsh1226b702e3157f8p1b35e8jsn633cdea0f700', // process.env.RAPIDAPI_KEY, - ¯\_(ツ)_/¯ -- É client-side, não tem como não ser pública
-  useQueryString: true
-}
 
 export default {
   middleware: 'authenticated',
@@ -142,11 +126,12 @@ export default {
     },
 
     // Get Weather for the NEXT 5 Days
-    async getNextWeather ({ city }) {
-      const c = city || 'rio de janeiro, br'
+    async getNextWeather ({ city, country }) {
+      const c = city || 'rio de janeiro'
+      const ct = country || 'br'
       await this.$axios.$get(
         rapid.nexturl +
-        c +
+        c + ',' + ct +
         '&lang=pt_br' +
         '&exclude=hourly' + // TODO: This is a test
         '&units=metric',

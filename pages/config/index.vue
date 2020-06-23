@@ -118,10 +118,28 @@
 </template>
 
 <script>
+// eslint-disable-next-line node/no-deprecated-api
+import { internalAPI } from '~/constants.js'
+
 export default {
   middleware: 'authenticated',
 
   components: {
+  },
+
+  mounted () {
+    this.getCountry(0)
+  },
+
+  methods: {
+    // Get all Countries in Internal API to list on dropdown
+    async getCountry ({ id }) {
+      const countryId = this.id || '' // Empty value lists everything
+      const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
+      // eslint-disable-next-line no-console
+      console.log(countries)
+      // TODO: Send error messages to Alert Component
+    }
   }
 }
 </script>
