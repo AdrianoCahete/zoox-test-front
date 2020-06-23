@@ -21,9 +21,6 @@ $ npm run dev
 
 ```
 
-## Infos
-- Velocidades do vento retiradas (e resumidas) [daqui](https://www.spc.noaa.gov/faq/tornado/beaufort.html).
-
 ## Questões:
 - **Qual ISO 3166? Existem o "Alpha-2", "Alpha-3" e "Numeric Code".**  
   Na dúvida, estou usando o "Alpha-2".  
