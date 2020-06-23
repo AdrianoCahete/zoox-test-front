@@ -67,7 +67,7 @@
 <script>
 // eslint-disable-next-line node/no-deprecated-api
 import moment from 'moment'
-import { internalAPI, rapid } from '~/constants.js'
+import { internalAPI, rapid } from '~/constants/'
 import weatherCard from '~/components/common/weather/weatherCard.vue'
 
 export default {

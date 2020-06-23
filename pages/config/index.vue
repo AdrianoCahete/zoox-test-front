@@ -119,7 +119,7 @@
 
 <script>
 // eslint-disable-next-line node/no-deprecated-api
-import { internalAPI } from '~/constants.js'
+import { internalAPI } from '~/constants/'
 
 export default {
   middleware: 'authenticated',
