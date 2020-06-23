@@ -16,8 +16,7 @@
           Buscar
         </button>
       </form>
-      <section v-if="weathersNext => 0" id="weatherNext" class="weatherSection">
-        <h1>Proximos 5 dias</h1>
+      <section id="weatherNext" class="weatherSection">
         <ul class="weatherList">
           <li v-for="w in weathersNext" :key="w.dt" class="item">
             <weatherCard
@@ -35,10 +34,9 @@
           </li>
         </ul>
       </section>
-      <section v-if="weathersPast => 0" id="weatherPast" class="weatherSection">
-        <h1>Últimos 5 Dias</h1>
+      <section id="weatherPast" class="weatherSection">
         <ul class="weatherList">
-          <li v-for="w in weathersPast.hourly.slice(0, 1)" :key="w.dt" class="item">
+          <li v-for="w in weathersPast.slice(0, 1)" :key="w.dt" class="item">
             <weatherCard
               :id="w.dt"
               type="isPast"
@@ -115,7 +113,7 @@ export default {
     // Get Past X days in Epoch
     getPrevDates ({ dates }) {
       const d = dates || 1
-      const today = new Date()
+      const today = moment().unix()
       const res = []
 
       let i = 0
@@ -154,20 +152,22 @@ export default {
       const lonValue = lon || '-43.2096'
       const numDays = pastDays || 1
 
-      const today = moment().unix() // (Math.round(today.getTime() / 1000))
+      // const today = moment().unix() // (Math.round(today.getTime() / 1000))
+      const yesterday = moment().subtract(numDays, 'days').unix()
+
       // const prevDays = this.getPrevDates(numDays)
 
       // TODO: Use getPrevDates instead
-      const pDays = []
+      const pDays = yesterday
 
-      let i = 0
+      // let i = 0
       // 86400  is a day in Epoch time
-      for (i; i < numDays; i++) {
-        pDays.push(Math.round(today - (86400 * i)))
-        // TODO: Move API request to here and append to array
-      }
+      // for (i; i < numDays; i++) {
+      //   pDays.push(moment().subtract(i, 'days'))
+      //   // TODO: Move API request to here and append to array
+      // }
 
-      pDays.join(',')
+      // pDays.join(',')
       // eslint-disable-next-line no-console
       console.log(pDays)
 
@@ -181,8 +181,8 @@ export default {
         '&dt=' + pDays,
         { headers: { 'x-rapidapi-host': rapid.host, 'x-rapidapi-key': rapid.key, useQueryString: rapid.useQueryString } }).then((response) => {
         // eslint-disable-next-line no-console
-        console.log(response)
-        this.weathersPast = response // response.current = actual / response.hourly = 3 hourly / response = all
+        console.log(response.hourly)
+        this.weathersPast = response.hourly // response.current = actual / response.hourly = 3 hourly / response = all
       })
         .catch((error) => {
           // eslint-disable-next-line no-console
@@ -204,7 +204,6 @@ export default {
 
 .weatherSection {
   margin-top: 2rem;
-  border: 1px solid #f2f2f2; // TODO: Get from Vars
 
   > h1 {
     background-color: #f2f2f2; // TODO: Get from Vars

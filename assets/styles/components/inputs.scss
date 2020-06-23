@@ -24,3 +24,10 @@ input {
 .input-select {
   width: 100%;
 }
+
+.input-progress {
+  min-width: 10%;
+  background: #ccc;
+  height: 3px;
+  align-self: center;
+}

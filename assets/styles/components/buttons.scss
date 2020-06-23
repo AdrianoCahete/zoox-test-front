@@ -30,6 +30,7 @@ button {
 
   &.btnGhost {
     border: 1px solid var(--primaryColor);
+    background-color: transparent;
 
     &:hover {
       border-color: var(--primaryColorDarker);
@@ -39,6 +40,7 @@ button {
   // States
   &.isLoading {
     background-color: #ccc; // TODO: Get from vars
+    pointer-events: none;
   }
 
   &.disabled {

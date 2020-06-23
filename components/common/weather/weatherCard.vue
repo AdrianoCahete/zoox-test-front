@@ -1,11 +1,14 @@
 <template>
-  <section :id="id" :class="'weatherCard ' + 'weatherStatus-' + weatherStatus.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ($moment(date).format('HH') < 6 ? ' timeNight ': ' timeDay ')) + type">
+  <section
+    :id="id"
+    :class="'weatherCard ' + 'weatherStatus-' + weatherStatus.toLowerCase() + ($moment(date).format('HH') >= 18 ? ' timeNight ' : ($moment(date).format('HH') < 6 ? ' timeNight ': ' timeDay ')) + type"
+  >
     <section class="time">
-      <span v-if="type == 'isFuture'">
-        {{ $moment(date).format('HH') }}h
+      <span v-if="type == 'isFuture'" :title="($moment(date).format('HH') >= 18 ? ' Noite ' : ($moment(date).format('HH') < 6 ? ' Noite ': ' Dia '))">
+        {{ $moment(date).format('H') }}h
       </span>
-      <span>
-        {{ $moment(date).format('DD MMMM') }}
+      <span title="Dia do Mês">
+        {{ $moment(date).format('DD') }}
       </span>
     </section>
     <section class="temp">
@@ -14,7 +17,12 @@
       </span>
     </section>
     <section class="desc">
-      <span>{{ weatherDesc }}</span>
+      <span class="weatherState">
+        <Icon v-if="weatherStatus.toLowerCase() == 'clear'" :icon="($moment(date).format('HH') >= 18 ? 'clear-night' : ($moment(date).format('HH') < 6 ? 'clear-night': 'clear-day'))" />
+        <Icon v-if="weatherStatus.toLowerCase() == 'clouds'" :icon="(clouds < 50 ? 'cloud' : 'clouds')" />
+        <Icon v-if="weatherStatus.toLowerCase() == 'rain'" icon="rain-low" />
+        {{ weatherDesc }}
+      </span>
       <span v-if="clouds > 1" class="value valuePercent">
         {{ clouds }}
       </span>
@@ -27,9 +35,10 @@
         <span class="value valuePercent">
           {{ humidity }}
         </span>
-        <span class="extraValue">
-          <section class="input-progress" :data-progress="humidity" /> <!-- TODO: Move to custom component -->
-        </span>
+        <!-- TODO: Move to custom component -->
+        <!-- <span class="extraValue isProgress">
+          <section class="input-progress" :style="'width:' + humidity + '%'" />
+        </span> -->
       </section>
       <section>
         <span class="title">
@@ -46,6 +55,9 @@
         <span class="title">
           Vento
         </span>
+        <!-- <span class="value willSpin" :style="'animation-duration:'+(windSpeed.toFixed(1) < 20 ? '4' : (windSpeed.toFixed(1) < 50 ? '.5' : '100'))+'s'">
+          <Icon icon="windmotor_alt" />
+        </span> -->
         <span class="value">
           {{ windSpeed.toFixed(1) }}
         </span>
@@ -58,7 +70,13 @@
 </template>
 
 <script>
+import Icon from '~/components/common/Icon.vue'
+
 export default {
+  components: {
+    Icon
+  },
+
   props: {
     id: {
       type: [Number, String],
@@ -115,22 +133,22 @@ export default {
 .weatherCard {
   padding: 1rem;
   border-radius: 4px;
-}
+  cursor: default;
 
-.weatherStatus {
-  &-clear {
-
+  &:hover {
+    .willSpin {
+      animation: spin 7s linear infinite;
+    }
   }
 }
 
-// Time of the Day
-.timeDay {
-  background-color: #f2f2f2; // TODO: Move to vars
-}
+.weatherState {
+  display: flex;
+  justify-items: center;
 
-.timeNight {
-  background-color: #1c2632;  // TODO: Move to vars
-  color: #ffffff;
+  > svg {
+     margin-right: .8rem;
+   }
 }
 
 .time,
@@ -153,9 +171,25 @@ export default {
     font-size: 1.4rem;
   }
 
+  .extraValue {
+    display: flex;
+    justify-content: center;
+    height: 2.4rem;
+
+    &.isProgress {
+      justify-content: flex-start;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+
   .value {
     font-size: 1.6rem;
     font-weight: 500;
+
+    > svg {
+      margin-top: 2px;
+    }
 
     &.valuePercent {
       &::after {
@@ -176,12 +210,31 @@ export default {
 
 .desc {
   text-transform: capitalize;
-  margin: 1rem 0;
+  margin: 1.5rem 0;
 }
 
 .isPast {
+  background-color: var(--timeIsPast);
+
   .time {
     justify-content: flex-end;
   }
+}
+
+.weatherStatus {
+  &-clear {
+
+  }
+}
+
+// Time of the Day
+.timeDay {
+  background-color: var(--timeDay); // TODO: Move to vars
+}
+
+.timeNight {
+  background-color: var(--timeNight);
+  color: var(--textColorInverted);
+  fill: var(--textColorInverted);
 }
 </style>
