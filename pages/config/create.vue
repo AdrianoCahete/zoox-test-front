@@ -1,6 +1,6 @@
 <template>
-  <div class="content">
-    <div v-if="$store.state.auth" class="page pageList">
+  <div class="content pageList">
+    <div v-if="$store.state.auth" class="page">
       <pageHeader title="Criar" back-link="/config" />
 
       <section>

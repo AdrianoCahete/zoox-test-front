@@ -1,7 +1,7 @@
 <template>
-  <div class="content">
+  <div class="content pageList">
     <!-- Logged In -->
-    <div v-if="$store.state.auth" class="page pageList">
+    <div v-if="$store.state.auth" class="page">
       <section>
         <section class="table">
           <pageHeader title="Lista" />

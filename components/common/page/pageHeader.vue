@@ -1,9 +1,8 @@
 <template>
   <section class="pageHeader">
     <h1>{{ title }}</h1>
-    <nuxt-link v-if="backLink" :to="backLink" class="btnBack">
-      Voltar
-    </nuxt-link>
+    <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
+    <nuxt-link v-if="backLink" :to="backLink" class="btnBack">Voltar</nuxt-link>
   </section>
 </template>
 
@@ -24,13 +23,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  svg {
-    width: 2rem;
-    height: 2rem;
+  .pageHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     fill: inherit;
 
-    &:hover {
-      fill: inherit;
+    .btnBack {
+      &:before {
+        display: inline-block;
+        content: "<";
+        margin-right: .5rem;
+        text-decoration: none;
+        transition: margin .3s ease-in-out;
+      }
+
+      &:hover {
+        &:before {
+          margin-right: 1rem;
+          transition: margin .3s ease-in-out;
+        }
+      }
     }
   }
 </style>
