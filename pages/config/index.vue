@@ -49,7 +49,7 @@
                   </td>
                 </tr>
                 <template v-for="city in countryList[i].city">
-                  <tr :key="c.id+'_'+city.id" :data-test="city.id">
+                  <tr :key="c.id+'_'+city.id" :data-city="city.id">
                     <td>
                       {{ city.name }}
                     </td>
@@ -69,10 +69,10 @@
                       -
                     </td>
                     <td class="tableActions">
-                      <button title="Editar" @click="editItem(city.id)">
+                      <button title="Editar" @click="editItem($event, city.id)">
                         <Icon icon="edit" />
                       </button>
-                      <button type="button" title="Remover" class="btnDestroy" @click="deleteItem(c.id)">
+                      <button type="button" title="Remover" class="btnDestroy" @click="deleteItem(city.id)">
                         <Icon icon="remove" />
                       </button>
                     </td>
@@ -132,8 +132,8 @@ export default {
       const itemID = this.id
       // const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
       // eslint-disable-next-line no-console
-      console.log(itemID)
-      this.$router.push(`/config/edit/${itemID}`)
+      console.log('Editando Item: ' + itemID)
+      // this.$router.push(`/config/edit/${itemID}`)
       // TODO: Send error messages to Alert Component
     },
 

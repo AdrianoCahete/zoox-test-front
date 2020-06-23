@@ -4,24 +4,27 @@
       <pageHeader title="Criar" back-link="/config" />
 
       <section>
-        <section>
+        <section class="input-radio">
           <input id="country" v-model="picked" type="radio" value="country">
           <label for="country">País</label>
         </section>
-        <section>
+        <section class="input-radio">
           <input id="city" v-model="picked" type="radio" value="city">
           <label for="city">Cidade</label>
         </section>
 
         <!-- Add Country -->
-        <form v-if="picked === 'country'" method="post" @submit="addCountry(name, iso, today)">
+        <form v-if="picked === 'country'" class="card" method="post" @submit="addCountry(name, iso, today)">
+          <span class="description">
+            Adicione as informações do <strong>País</strong>
+          </span>
           <section class="sectionForm">
-            <section class="input-content">
+            <section class="input-text">
               <label for="name">Nome</label>
               <input id="name" v-model="name" type="text" placeholder="Nome do país" required>
             </section>
 
-            <section class="input-content">
+            <section class="input-text">
               <label for="iso">ISO</label>
               <input id="iso" v-model="iso" type="text" placeholder="Código ISO" required>
             </section>
@@ -29,7 +32,7 @@
           </section>
 
           <section class="buttonBar">
-            <button type="button" class="btnPrimary">
+            <button type="button" class="btnCreate">
               Adicionar País
             </button>
           </section>
@@ -38,6 +41,9 @@
         <!-- Add City -->
         <form v-if="picked === 'city'" method="post" @submit="addCountry(name, country, lat, lon, today)">
           <!-- @submit="addCountry" -->
+          <span class="description">
+            Adicione as informações do País
+          </span>
           <section class="sectionForm">
             <section class="input-content">
               <label for="name">Nome</label>

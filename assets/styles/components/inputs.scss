@@ -21,8 +21,21 @@ input {
     margin-bottom: 1rem;
 }
 
+.input-text {
+  margin-bottom: 1rem;
+}
+
 .input-select {
   width: 100%;
+}
+
+.input-radio {
+    display: flex;
+    align-items: center;
+
+  > label {
+    margin-left: .5rem;
+  }
 }
 
 .input-progress {
@@ -30,4 +43,10 @@ input {
   background: #ccc;
   height: 3px;
   align-self: center;
+}
+
+.isRequired {
+  &:before {
+    content: "*";
+  }
 }
