@@ -69,7 +69,7 @@ export default {
     '@nuxtjs/axios',
     // '@nuxtjs/auth',
     '@nuxtjs/pwa',
-    'nuxt-vue-select'
+    'nuxt-vue-multiselect'
   ],
 
   // router: {

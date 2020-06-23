@@ -5,12 +5,7 @@
       <form method="post">
         <section class="input-content">
           <label for="cidade">Cidade</label>
-          <v-select
-            id="cidade"
-            v-model="city"
-            class="input-select"
-            :options="['Rio de Janeiro, BR', 'Atlanta, US']"
-          />
+          <multiselect id="city" v-model="citySelected" :options="cityOptions" class="input-select" />
         </section>
         <button type="button" class="btn-Full btnPrimary" @click="getNextWeather('rio de janeiro, br'); getPastWeather('-22.9035','-43.2096')">
           Buscar
@@ -88,7 +83,8 @@ export default {
   data () {
     return {
       locale: 'pt-br',
-      city: 'Rio de Janeiro, BR',
+      citySelected: 'Rio de Janeiro, BR',
+      cityOptions: ['Rio de Janeiro, BR', 'Atlanta, US'],
       countries: [],
       weathersNext: [],
       weathersPast: []
