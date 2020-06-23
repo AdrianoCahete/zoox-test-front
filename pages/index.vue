@@ -77,7 +77,7 @@ export default {
     weatherCard
   },
 
-  // Default City
+  // Default Data
   data () {
     return {
       locale: 'pt-br',
