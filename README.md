@@ -4,6 +4,10 @@
 ~~Deploy automático para o Netlify: https://zoox-test-202006.netlify.app/~~  
 Deploy automático removido até eu ter uma API pública interna rodando.
 
+# Intro
+Meu foco é UI/UX e Front-End UI.   
+Então meu conhecimento maior é em cima de estilização, performance e componentes visuais da aplicação, ao contrário de um Front-End Developer que tem conhecimento da ligação do Backend com o Front-End.  
+ Ou seja: sei fazer, mas não é minha especialização.
 
 
 
@@ -33,9 +37,9 @@ O site dado traduz pra português até os códigos, acabei usando a [Wikipedia](
 
 ## Problemas conhecidos:
 - Auth não está funcionando.  
-Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha).
+Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha), mas verifica se você tá logado.
 
-- API Interna não é versionada porque né...
+- API Interna não é versionada porque o projeto é o front-end
 
 
 ## ToDo:

@@ -23,9 +23,9 @@
         <Icon v-if="weatherStatus.toLowerCase() == 'rain'" icon="rain-low" />
         {{ weatherDesc }}
       </span>
-      <span v-if="clouds > 1" class="value valuePercent">
+      <!-- <span v-if="clouds > 1" class="value">
         {{ clouds }}
-      </span>
+      </span> -->
     </section>
     <section class="extraInfo">
       <section>
@@ -204,13 +204,16 @@ export default {
   font-size: 5rem;
 
   &::after {
+    display: inline-block;
     content: "°";
+    width: 0;
   }
 }
 
 .desc {
   text-transform: capitalize;
   margin: 1.5rem 0;
+  justify-content: center;
 }
 
 .isPast {

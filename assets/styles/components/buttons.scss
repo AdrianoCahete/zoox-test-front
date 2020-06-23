@@ -1,11 +1,50 @@
-button {
+// TODO: Move to table style
+.actionBar {
+  .button {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    border: 1px solid transparent;
+
+    &:hover {
+      border-color: #000;
+    }
+  }
+}
+
+// TODO: Move to table style
+.tableActions {
+  > button {
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+    svg {
+      height: 1.8rem;
+    }
+
+    &:hover {
+      background-color: #f2f2f2;
+      border-color: #000;
+    }
+  }
+}
+
+button,
+.button {
   height: 4rem;
   border-radius: 4px;
   border: 0;
-  @include transition(background-color);
+  @include transition();
+
+   > span {
+    margin-left: 1rem;
+   }
 
   &:hover {
-    @include transition(background-color);
+    @include transition();
   }
 
   &:active,
@@ -14,6 +53,7 @@ button {
   }
 
   // Modifiers
+  // Full Width
   &.btn-Full {
     width: 100%;
   }
@@ -34,6 +74,19 @@ button {
 
     &:hover {
       border-color: var(--primaryColorDarker);
+    }
+  }
+
+  &.btnAdd {
+    fill: var(--successColor); // TODO: Create a Add Color
+  }
+
+  &.btnDestroy {
+    &:hover {
+      background-color: var(--errorColor);
+      color: var(--textColorInverted);
+      fill: var(--textColorInverted);
+      @include transition();
     }
   }
 

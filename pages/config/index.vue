@@ -4,17 +4,18 @@
     <div v-if="$store.state.auth" class="page">
       <section>
         <section class="table">
-          <pageHeader title="Lista" />
           <!-- TODO: Move to custom Components -->
-          <section class="tableActions">
-            <nuxt-link to="/config/create" class="btnAdd">
-              Criar
+          <section class="actionBar">
+            <span class="title">List</span>
+            <nuxt-link to="/config/create" class="button btnAdd">
+              <Icon icon="add" />
+              <span>Criar</span>
             </nuxt-link>
           </section>
           <table>
             <thead>
               <th>
-                Cidade
+                País/Cidade
               </th>
               <th>
                 Latitude
@@ -28,53 +29,53 @@
               <th>
                 Atualizado em
               </th>
-              <th>
+              <th class="tableActions">
                 Ações
               </th>
             </thead>
             <tbody>
-              <!-- <tr>
-                <td>
-                  Atlanta
-                </td>
-                <td>
-                  -
-                </td>
-                <td>
-                  -
-                </td>
-                <td>
-                  2020-06-20
-                </td>
-                <td>
-                  -
-                </td>
-                <td>
-                  <span>
-                    Edit
-                  </span>
-                  <span>
-                    Delete
-                  </span>
-                </td>
-              </tr> -->
-              <template v-for="c in countryList">
+              <template v-for="(c, i) in countryList">
                 <tr :key="c.id" class="group">
                   <td colspan="5">
                     {{ c.name }} ({{ c.iso.toUpperCase() }})
                   </td>
-                  <td class="btnAction">
-                    <button @click="editItem(c.id)">
-                      Edit
+                  <td class="tableActions">
+                    <button title="Editar" @click="editItem(c.id)">
+                      <Icon icon="edit" />
                     </button>
-                    <span>
-                      Delete
-                    </span>
+                    <button title="Remover" class="btnDestroy" @click="deleteItem(c.id)">
+                      <Icon icon="remove" />
+                    </button>
                   </td>
                 </tr>
-                <template v-for="city in countryList.city">
-                  <tr :key="c.id+'_'+city.id">
-                    {{ city.name }}
+                <template v-for="city in countryList[i].city">
+                  <tr :key="c.id+'_'+city.id" :data-test="city.id">
+                    <td>
+                      {{ city.name }}
+                    </td>
+                    <td>
+                      {{ city.lat }}
+                    </td>
+                    <td>
+                      {{ city.long }}
+                    </td>
+                    <td>
+                      {{ $moment(city.date_created).format('YYYY-MM-DD @ HH:MM') }}
+                    </td>
+                    <td v-if="($moment(city.date_updated).isValid())">
+                      {{ $moment(city.date_updated).format('YYYY-MM-DD @ HH:MM') || '-' }}
+                    </td>
+                    <td v-else>
+                      -
+                    </td>
+                    <td class="tableActions">
+                      <button title="Editar" @click="editItem(city.id)">
+                        <Icon icon="edit" />
+                      </button>
+                      <button type="button" title="Remover" class="btnDestroy" @click="deleteItem(c.id)">
+                        <Icon icon="remove" />
+                      </button>
+                    </td>
                   </tr>
                 </template>
               </template>
@@ -89,13 +90,13 @@
 <script>
 // eslint-disable-next-line node/no-deprecated-api
 import { internalAPI } from '~/constants/'
-import pageHeader from '~/components/common/page/pageHeader.vue'
+import Icon from '~/components/common/Icon.vue'
 
 export default {
   middleware: 'authenticated',
 
   components: {
-    pageHeader
+    Icon
   },
 
   data () {
@@ -128,11 +129,21 @@ export default {
 
     // eslint-disable-next-line require-await
     async editItem ({ id }) {
-      const itemID = this.id || '' // Empty value lists everything
+      const itemID = this.id
       // const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
       // eslint-disable-next-line no-console
       console.log(itemID)
       this.$router.push(`/config/edit/${itemID}`)
+      // TODO: Send error messages to Alert Component
+    },
+
+    // eslint-disable-next-line require-await
+    async deleteItem ({ id }) {
+      const itemID = this.id
+      // const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
+      // eslint-disable-next-line no-console
+      console.log('Removendo Item: ' + itemID)
+      // this.$router.push(`/config/edit/${itemID}`)
       // TODO: Send error messages to Alert Component
     }
   }
@@ -141,25 +152,52 @@ export default {
 
 <style lang="scss" scoped>
 // TODO: Move to Table component
+.table {
+  .actionBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f2f2f2;
+    padding: 1rem;
+
+    .title {
+      font-weight: 500;
+    }
+  }
+}
+
 table {
   width: 100%;
   border: 1px solid #ccc;
 
-  thead th {
-    border-bottom: 1px solid #ccc;
+  thead {
+    th {
+      padding: 1rem;
+      border-bottom: 1px solid #ccc;
+    }
   }
 
   tbody {
-    .group {
-      background-color: #f2f2f2;
-      font-weight: bold;
+    tr {
+      td {
+        padding: 0 1rem;
+      }
+
+      &.group {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      &:not(.group) {
+        td:first-of-type {
+          padding-left: 2rem;
+        }
+      }
     }
   }
 
-  .btnAction {
-    > button {
-      border: 1px solid #000;
-    }
+  .tableActions {
+    text-align: center;
   }
 }
 </style>
