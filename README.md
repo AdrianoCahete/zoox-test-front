@@ -6,8 +6,8 @@ Deploy automático removido até eu ter uma API pública interna rodando.
 
 # Intro
 Meu foco é UI/UX e Front-End UI.   
-Então meu conhecimento maior é em cima de estilização, performance e componentes visuais da aplicação, ao contrário de um Front-End Developer que tem conhecimento da ligação do Backend com o Front-End.  
- Ou seja: sei fazer, mas não é minha especialização.
+Então meu conhecimento maior é em cima de estilização, performance, usabilidade, experiência de usuário e componentes visuais da aplicação, ao contrário de um Front-End Developer que tem maior conhecimento da ligação do Backend com o Front-End.  
+Ou seja: sei fazer, mas não é minha especialização.
 
 
 
@@ -37,10 +37,13 @@ $ npm run dev
 - Auth não efetivamente verifica se as credenciais são válidas.  
 Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha), mas verifica se você está ou não logado.
 
-- Busca de weather não respeita o escolhido no dropdown
+- Busca de Clima só retorna um dia anterior
+- Busca de Clima não respeita o escolhido no dropdown
 - Listagem não tem filtro e ordenação
 - "Create item" só permite criar cidade de EUA ou Brasil (model hardcore)
+- "Create" não faz validação se os inputs estão vazios e aceita incluir
 - "Edit Item" lista as informações, mas não atualiza o banco
+
 
 
 

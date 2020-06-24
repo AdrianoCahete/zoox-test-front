@@ -106,7 +106,6 @@ export default {
       const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
       // eslint-disable-next-line no-console
       console.log(countries)
-      // TODO: Send error messages to Alert Component
     },
 
     // Get Past X days in Epoch
@@ -133,7 +132,7 @@ export default {
         rapid.nexturl +
         c + ',' + ct +
         '&lang=pt_br' +
-        '&exclude=hourly' + // TODO: This is a test
+        '&exclude=hourly' +
         '&units=metric',
         { headers: { 'x-rapidapi-host': rapid.host, 'x-rapidapi-key': rapid.key, useQueryString: rapid.useQueryString } }).then((response) => {
         this.weathersNext = response.list
@@ -166,8 +165,8 @@ export default {
       //   pDays.push(moment().subtract(i, 'days'))
       //   // TODO: Move API request to here and append to array
       // }
-
       // pDays.join(',')
+
       // eslint-disable-next-line no-console
       console.log(pDays)
 
@@ -186,7 +185,7 @@ export default {
       })
         .catch((error) => {
           // eslint-disable-next-line no-console
-          console.log('Error: ' + error) // TODO: Send error messages to Alert Component
+          console.log('Error: ' + error)
         })
     }
   }

@@ -5,11 +5,8 @@
         Home
       </nuxt-link>
       <nuxt-link to="/config">
-        Configuração <!-- TODO: Move to Icon (move to right side?) -->
+        Configuração
       </nuxt-link>
-      <!-- <nuxt-link v-if="isDevMode" to="/debug">
-        Test
-      </nuxt-link> -->
     </nav>
     <section :class="$store.state.auth ? 'brand' : 'brand notLogged'" title="Zoox">
       <Brand />
