@@ -2,7 +2,7 @@
   <div class="content contentList">
     <!-- Logged In -->
     <div v-if="$store.state.auth" class="page">
-      <pageHeader title="Edit" back-link="/config" />
+      <pageHeader title="Editar" back-link="/config" />
       <section v-if="items">
         <p v-if="$fetchState.pending">
           Obtendo informação, aguarde...
@@ -26,21 +26,56 @@
             </section>
           </section>
           <section>
-            <form>
-              PAÍS!
+            <form method="post" @submit="editCountry(items.id, name, iso, today)">
+              <span class="description">
+                Edite as informações de <strong>{{ items.name }}</strong>
+              </span>
+              <section class="sectionForm">
+                <section class="input-text">
+                  <label for="name">Nome</label>
+                  <input
+                    id="name"
+                    :value="items.name"
+                    type="text"
+                    placeholder="Nome do país"
+                    required
+                  >
+                </section>
+
+                <section class="input-text">
+                  <label for="iso">ISO</label>
+                  <input
+                    id="iso"
+                    :value="items.iso"
+                    type="text"
+                    placeholder="Código ISO"
+                    required
+                  >
+                </section>
+                <input id="id" :value="items.id" type="text" hidden>
+                <input id="today" v-model="today" type="text" hidden>
+              </section>
+
+              <section class="buttonBar">
+                <button type="button" class="btnPrimary">
+                  Editar País
+                </button>
+              </section>
             </form>
           </section>
         </section>
         <section v-else-if="this.$route.params.mode == 'city'">
           <section :key="items.id" class="cardHeader">
-            <section>
+            <section class="itemName">
               {{ items.name }}
             </section>
-            <section>
-              {{ items.lat }}
-            </section>
-            <section>
-              {{ items.long }}
+            <section class="itemLoc">
+              <section>
+                {{ items.lat }}
+              </section>
+              <section>
+                {{ items.long }}
+              </section>
             </section>
             <section>
               {{ $moment(items.date_created).format('YYYY-MM-DD @ HH:MM') }}
@@ -50,8 +85,34 @@
             </section>
           </section>
           <section>
-            <form>
-              CIDADE!
+            <form method="post" @submit="addCity(name, items.countryId, lat, lon, today)">
+              <span class="description">
+                Edite as informações de <strong>{{ items.name }}</strong>
+              </span>
+              <section class="sectionForm">
+                <section class="input-text">
+                  <label for="name">Nome</label>
+                  <input id="name" :value="items.name" type="text" placeholder="Nome do país" required>
+                </section>
+
+                <section class="input-text">
+                  <label for="lat">Latitude</label>
+                  <input id="lat" :value="items.lat" type="text" placeholder="Latitude" required>
+                </section>
+
+                <section class="input-text">
+                  <label for="lon">Longitude</label>
+                  <input id="lon" :value="items.long" type="text" placeholder="Longitude" required>
+                </section>
+                <input id="today" v-model="today" type="text" hidden>
+                <input id="country" :value="items.countryId" type="text" hidden>
+              </section>
+
+              <section class="buttonBar">
+                <button type="button" class="btnPrimary">
+                  Editar Cidade
+                </button>
+              </section>
             </form>
           </section>
         </section>
@@ -68,6 +129,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { internalAPI } from '~/constants/'
 import pageHeader from '~/components/common/page/pageHeader.vue'
 
@@ -86,7 +148,13 @@ export default {
     return {
       itemId: this.$route.params.id,
       itemMode: this.$route.params.mode,
-      items: []
+      items: [],
+      picked: '',
+      name: '',
+      iso: '',
+      lat: '',
+      lon: '',
+      today: moment().format()
     }
   },
 
@@ -97,6 +165,39 @@ export default {
 
       await this.$axios.$get(internalAPI.url + '/' + modeType + '/' + itemId).then((response) => {
         this.items = response
+      })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log('Error: ' + error)
+        })
+    },
+
+    // eslint-disable-next-line require-await
+    async editCountry (id, name, iso, date) {
+      // const countries = await this.$axios.$post(internalAPI.url + '/country/' + countryId + '?_embed=city')
+      // eslint-disable-next-line no-console
+      console.log(this.name, this.iso, this.date)
+    },
+
+    /* eslint-disable */
+    async editCity (name, country, lat, lon, date) {
+      const today = moment().format()
+      const data = {
+        countryId: country,
+        name:name,
+        lat:lat,
+        long:lon,
+        date_created:today
+      }
+      /* eslint-enable */
+
+      await this.$axios.$post(
+        internalAPI.url + '/country/',
+        data,
+        { headers: { 'content-type': 'application/json' } }).then((response) => {
+        // this.$router.push('/config/', { params: { name } })
+        // eslint-disable-next-line no-console
+        console.log('Item adicionado: ' + name, country, lat, lon, date)
       })
         .catch((error) => {
           // eslint-disable-next-line no-console

@@ -27,6 +27,9 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(228, 228, 228, .8); // TODO: Move to vars
     fill: inherit;
 
     .btnBack {
