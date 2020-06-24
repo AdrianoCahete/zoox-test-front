@@ -36,10 +36,13 @@ O site dado traduz pra português até os códigos, acabei usando a [Wikipedia](
 
 
 ## Problemas conhecidos:
-- Auth não está funcionando.  
-Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha), mas verifica se você tá logado.
+- Auth não efetivamente verifica se as credenciais são válidas.  
+Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha), mas verifica se você está ou não logado.
 
-- API Interna não é versionada porque o projeto é o front-end
+- Listagem não tem filtro e ordenação
+- "Create Item" não funciona
+- "Edit Item" lista as informações, mas não atualiza o banco
+
 
 
 ## ToDo:

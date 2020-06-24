@@ -117,6 +117,10 @@ a {
   padding-top: 5rem; // Get from vars (and navbar height)
   animation: fadeIn 1s ease-in;
 
+  &.pageForm {
+    align-items: center;
+  }
+
   .w-50 {
     width: 50%;
   }
