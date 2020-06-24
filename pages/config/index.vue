@@ -1,12 +1,12 @@
 <template>
-  <div class="content pageList">
+  <div class="content contentList">
     <!-- Logged In -->
     <div v-if="$store.state.auth" class="page">
       <section>
         <section class="table">
           <!-- TODO: Move to custom Components -->
           <section class="actionBar">
-            <span class="title">List</span>
+            <span class="title">Lista</span>
             <nuxt-link to="/config/create" class="button btnAdd">
               <Icon icon="add" />
               <span>Criar</span>
@@ -40,10 +40,10 @@
                     {{ c.name }} ({{ c.iso.toUpperCase() }})
                   </td>
                   <td class="tableActions">
-                    <button title="Editar" @click="editItem(c.id)">
+                    <button title="Editar" @click="editItem(c.id,'country')">
                       <Icon icon="edit" />
                     </button>
-                    <button title="Remover" class="btnDestroy" @click="deleteItem(c.id)">
+                    <button title="Remover" class="btnDestroy" @click="deleteItem(c.id,'country')">
                       <Icon icon="remove" />
                     </button>
                   </td>
@@ -69,10 +69,10 @@
                       -
                     </td>
                     <td class="tableActions">
-                      <button title="Editar" @click="editItem($event, city.id)">
+                      <button title="Editar" @click="editItem(city.id,'city')">
                         <Icon icon="edit" />
                       </button>
-                      <button type="button" title="Remover" class="btnDestroy" @click="deleteItem(city.id)">
+                      <button type="button" title="Remover" class="btnDestroy" @click="deleteItem(city.id,'city')">
                         <Icon icon="remove" />
                       </button>
                     </td>
@@ -110,41 +110,29 @@ export default {
   },
 
   methods: {
+
     // Get all Countries in Internal API to list on dropdown
     async getCountry ({ id }) {
       const countryId = this.id || '0' // '0' lists everything
       await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city').then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response)
         this.countryList = response
-        // TODO: Send error messages to Alert Component
       })
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log('Error: ' + error)
-          // this.Alert.Message = error // TODO: Send error messages to Alert Component
-          // this.Alert.Status = error // TODO: Send error messages to Alert Component
         })
     },
 
     // eslint-disable-next-line require-await
-    async editItem ({ id }) {
-      const itemID = this.id
-      // const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
-      // eslint-disable-next-line no-console
-      console.log('Editando Item: ' + itemID)
-      // this.$router.push(`/config/edit/${itemID}`)
-      // TODO: Send error messages to Alert Component
+    async editItem (id, mode) {
+      this.$router.push('/config/edit/' + mode + '/' + id, { params: { id, mode } })
     },
 
     // eslint-disable-next-line require-await
-    async deleteItem ({ id }) {
-      const itemID = this.id
+    async deleteItem (id, mode) {
       // const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
       // eslint-disable-next-line no-console
-      console.log('Removendo Item: ' + itemID)
-      // this.$router.push(`/config/edit/${itemID}`)
-      // TODO: Send error messages to Alert Component
+      console.log('Removendo: ' + id + ' ' + mode)
     }
   }
 }

@@ -23,6 +23,10 @@ input {
 
 .input-text {
   margin-bottom: 1rem;
+
+  > label {
+    display: block;
+  }
 }
 
 .input-select {
@@ -49,4 +53,12 @@ input {
   &:before {
     content: "*";
   }
+}
+
+.fieldset-radio {
+  border: 0;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }

@@ -100,7 +100,7 @@ a {
   width: 100vw;
   scroll-snap-type: y mandatory;
 
-  &.pageList {
+  &.contentList {
     justify-content: flex-start;
     text-align: left;
   }
@@ -116,6 +116,10 @@ a {
   margin: 2rem;
   padding-top: 7rem; // Get from vars (and navbar height)
   animation: fadeIn 1s ease-in;
+
+  .w-50 {
+    width: 50%;
+  }
 }
 
 // @media (max-width: 1024px) {
