@@ -26,9 +26,7 @@ $ npm run dev
 ```
 
 ## Questões:
-- **Qual ISO 3166? Existem o "Alpha-2", "Alpha-3" e "Numeric Code".**  
-  Na dúvida, estou usando o "Alpha-2".  
-O site dado traduz pra português até os códigos, acabei usando a [Wikipedia](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) mesmo.
+- O site dado traduz pra português até os códigos, acabei usando a [Wikipedia](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) pra pegar os códigos ISO mesmo.
 
 - > "A tela de login e os cadastro de cidade e país não serão salvos. Estarão disponíveis apenas enquanto o usuário estiver utilizando o sistema (projeto mock)." 
 
@@ -39,8 +37,9 @@ O site dado traduz pra português até os códigos, acabei usando a [Wikipedia](
 - Auth não efetivamente verifica se as credenciais são válidas.  
 Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha), mas verifica se você está ou não logado.
 
+- Busca de weather não respeita o escolhido no dropdown
 - Listagem não tem filtro e ordenação
-- "Create Item" não funciona
+- "Create item" só permite criar cidade de UEA ou Brasil (model hardcore)
 - "Edit Item" lista as informações, mas não atualiza o banco
 
 

@@ -20,6 +20,12 @@
       "iso": "us",
       "date_created": "2020-06-19T01:58:08.845Z",
       "date_updated": null
+    },
+    {
+      "name": "Alemanha",
+      "iso": "deu",
+      "date_created": "2020-06-24T03:08:47-03:00",
+      "id": 3
     }
   ],
   "city": [
@@ -48,14 +54,6 @@
       "long": "-43.986511",
       "date_created": "2020-06-24T03:04:43-03:00",
       "id": 3
-    },
-    {
-      "countryId": 2,
-      "name": "Nova Iorque",
-      "lat": "40.730610",
-      "long": "-73.935242",
-      "date_created": "2020-06-24T03:12:47-03:00",
-      "id": 4
     }
   ]
 }

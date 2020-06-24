@@ -16,7 +16,7 @@
         </fieldset>
 
         <!-- Add Country -->
-        <form v-if="picked === 'country'" class="card" method="post" @submit="addCountry(name, iso, today)">
+        <form v-if="picked === 'country'" class="card">
           <span class="description">
             Adicione as informações do <strong>País</strong>
           </span>
@@ -34,26 +34,40 @@
           </section>
 
           <section class="buttonBar">
-            <button type="button" class="btnCreate">
+            <button type="button" class="btnCreate" @click="addCountry(name, iso, today)">
               Adicionar País
             </button>
           </section>
         </form>
 
         <!-- Add City -->
-        <form v-if="picked === 'city'" method="post" @submit="addCity(name, country, lat, lon, today)">
+        <form v-if="picked === 'city'">
           <span class="description">
             Adicione as informações da <strong>Cidade</strong>
           </span>
           <section class="sectionForm">
             <section class="input-text">
               <label for="name">Nome</label>
-              <input id="name" v-model="name" type="text" placeholder="Nome do país" required>
+              <input id="name" v-model="name" type="text" placeholder="Nome da Cidade" required>
             </section>
 
             <section class="input-text">
-              <label for="iso">ISO</label>
-              <input id="iso" v-model="iso" type="text" placeholder="Código ISO" required>
+              <label for="country">País</label>
+              <multiselect
+                id="country"
+                v-model="countrySelected"
+                label="name"
+                placeholder="Selecione um país"
+                class="input-select"
+                track-by="name"
+                :options="countryOptions"
+                :close-on-select="true"
+              >
+                <template slot="singleLabel">
+                  {{ countrySelected.name }} ({{ countrySelected.iso }})
+                </template>
+              </multiselect>
+              <!-- <span>{{ countrySelected.name }}, {{ countrySelected.iso }}</span> -->
             </section>
 
             <section class="input-text">
@@ -69,7 +83,7 @@
           </section>
 
           <section class="buttonBar">
-            <button type="button" class="btnCreate">
+            <button type="button" class="btnCreate" @click="addCity(name, countrySelected.id, lat, lon, today)">
               Adicionar Cidade
             </button>
           </section>
@@ -98,28 +112,26 @@ export default {
       iso: '',
       lat: '',
       lon: '',
-      today: moment().format()
+      country: '',
+      today: moment().format(),
+      countrySelected: {
+        name: 'Brasil', iso: 'BR', id: 1
+      },
+      countryOptions: [
+        { name: 'Brasil', iso: 'BR', id: 1 },
+        { name: 'Estados Unidos', iso: 'US', id: 2 }
+      ]
     }
   },
 
   methods: {
-    // eslint-disable-next-line require-await
-    async addCountry (name, iso, date) {
-      // const countries = await this.$axios.$post(internalAPI.url + '/country/' + countryId + '?_embed=city')
-      // eslint-disable-next-line no-console
-      console.log(this.name, this.iso, this.date)
-    },
-
-    // eslint-disable-next-line require-await
     /* eslint-disable */
-    async addCity (name, country, lat, lon, date) {
+    async addCountry (name, iso, date) {
       const today = moment().format()
       const data = {
-        countryId: country,
-        name:name,
-        lat:lat,
-        long:lon,
-        date_created:today
+        name: name,
+        iso: iso,
+        date_created: today
       }
       /* eslint-enable */
 
@@ -127,7 +139,31 @@ export default {
         internalAPI.url + '/country/',
         data,
         { headers: { 'content-type': 'application/json' } }).then((response) => {
-        // this.$router.push('/config/', { params: { name } })
+        this.$router.push('/config/', { params: { name } })
+      })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log('Error: ' + error)
+        })
+    },
+
+    /* eslint-disable */
+    async addCity (name, country, lat, lon, date) {
+      const today = moment().format()
+      const data = {
+        countryId: country,
+        name: name,
+        lat: lat,
+        long: lon,
+        date_created: today
+      }
+      /* eslint-enable */
+
+      await this.$axios.$post(
+        internalAPI.url + '/city/',
+        data,
+        { headers: { 'content-type': 'application/json' } }).then((response) => {
+        this.$router.push('/config/', { params: { name } })
         // eslint-disable-next-line no-console
         console.log('Item adicionado: ' + name, country, lat, lon, date)
       })
