@@ -3,11 +3,20 @@
     <!-- Logged In -->
     <div v-if="$store.state.auth" class="page">
       <pageHeader title="Edit" back-link="/config" />
-      Id: {{ this.$route.params.id }} {{ this.$route.params.mode }}
       <section>
-        <li v-for="item in items" :key="item.id" class="item">
-          {{ item.name }}
-        </li>
+        <p v-if="$fetchState.pending">
+          Fetching data...
+        </p>
+        <p v-else-if="$fetchState.error">
+          Error while fetching data: {{ $fetchState.error.message }}
+        </p>
+        <ul v-else>
+          <li :key="items.id">
+            {{ items }}
+          </li>
+        </ul>
+
+        Id:{{ itemId }} ItemMode: {{ itemMode }}
       </section>
     </div>
   </div>
@@ -25,13 +34,14 @@ export default {
   },
 
   fetch () {
-    this.fillForm(this.$route.params.id, this.$route.params.mode)
+    this.fillForm() // this.$route.params.id, this.$route.params.mode
   },
 
   data () {
     return {
-      id: this.$route.params.id,
-      mode: this.$route.params.mode
+      itemId: this.$route.params.id,
+      itemMode: this.$route.params.mode,
+      items: []
     }
   },
 
@@ -39,11 +49,22 @@ export default {
   },
 
   methods: {
-    async fillForm (id, mode) {
-      const { data } = await this.$axios.$get(internalAPI.url + '/' + mode + '/' + id)
+    async fillForm () {
+      const itemId = this.$route.params.id
+      const modeType = this.$route.params.mode
+
       // eslint-disable-next-line no-console
-      // console.log(data)
-      return { items: data }
+      console.log(itemId, modeType)
+
+      await this.$axios.$get(internalAPI.url + '/' + modeType + '/' + itemId).then((response) => {
+        // eslint-disable-next-line no-console
+        console.log(response)
+        this.items = response
+      })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log('Error: ' + error)
+        })
     }
   }
 }
