@@ -39,7 +39,7 @@ Invés disso, estou usando um fakeAuth por ora (aceita qualquer login/senha), ma
 
 - Busca de weather não respeita o escolhido no dropdown
 - Listagem não tem filtro e ordenação
-- "Create item" só permite criar cidade de UEA ou Brasil (model hardcore)
+- "Create item" só permite criar cidade de EUA ou Brasil (model hardcore)
 - "Edit Item" lista as informações, mas não atualiza o banco
 
 

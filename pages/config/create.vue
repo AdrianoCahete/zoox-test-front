@@ -23,12 +23,26 @@
           <section class="sectionForm">
             <section class="input-text">
               <label for="name">Nome</label>
-              <input id="name" v-model="name" type="text" placeholder="Nome do país" required>
+              <input
+                id="name"
+                v-model="name"
+                maxlength="255"
+                type="text"
+                placeholder="Nome do país"
+                required
+              >
             </section>
 
             <section class="input-text">
               <label for="iso">ISO</label>
-              <input id="iso" v-model="iso" type="text" placeholder="Código ISO" required>
+              <input
+                id="iso"
+                v-model="iso"
+                maxlength="3"
+                type="text"
+                placeholder="Código ISO"
+                required
+              >
             </section>
             <input id="today" v-model="today" type="text" hidden>
           </section>
@@ -72,12 +86,12 @@
 
             <section class="input-text">
               <label for="lat">Latitude</label>
-              <input id="lat" v-model="lat" type="text" placeholder="Latitude" required>
+              <input id="lat" v-model="lat" type="number" placeholder="Latitude" required>
             </section>
 
             <section class="input-text">
               <label for="lon">Longitude</label>
-              <input id="lon" v-model="lon" type="text" placeholder="Longitude" required>
+              <input id="lon" v-model="lon" type="number" placeholder="Longitude" required>
             </section>
             <input id="today" v-model="today" type="text" hidden>
           </section>
@@ -139,7 +153,7 @@ export default {
         internalAPI.url + '/country/',
         data,
         { headers: { 'content-type': 'application/json' } }).then((response) => {
-        this.$router.push('/config/', { params: { name } })
+        this.$router.push('/config/')
       })
         .catch((error) => {
           // eslint-disable-next-line no-console
@@ -163,7 +177,7 @@ export default {
         internalAPI.url + '/city/',
         data,
         { headers: { 'content-type': 'application/json' } }).then((response) => {
-        this.$router.push('/config/', { params: { name } })
+        this.$router.push('/config/')
         // eslint-disable-next-line no-console
         console.log('Item adicionado: ' + name, country, lat, lon, date)
       })

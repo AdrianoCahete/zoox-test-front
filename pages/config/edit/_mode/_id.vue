@@ -11,7 +11,7 @@
           Erro ao obter a informação: {{ $fetchState.error.message }}
         </p>
         <section v-else-if="this.$route.params.mode == 'country'">
-          <section :key="items.id" class="cardHeader">
+          <section :key="items.id" class="cardHeader w-50">
             <section class="itemName">
               {{ items.name }}
               <span class="itemISO">
@@ -27,9 +27,9 @@
           </section>
           <section>
             <form method="post" @submit="editCountry(items.id, name, iso, today)">
-              <span class="description">
+              <!-- <span class="description">
                 Edite as informações de <strong>{{ items.name }}</strong>
-              </span>
+              </span> -->
               <section class="sectionForm">
                 <section class="input-text">
                   <label for="name">Nome</label>
@@ -37,6 +37,7 @@
                     id="name"
                     :value="items.name"
                     type="text"
+                    maxlength="255"
                     placeholder="Nome do país"
                     required
                   >
@@ -48,6 +49,7 @@
                     id="iso"
                     :value="items.iso"
                     type="text"
+                    maxlength="3"
                     placeholder="Código ISO"
                     required
                   >
@@ -65,44 +67,75 @@
           </section>
         </section>
         <section v-else-if="this.$route.params.mode == 'city'">
-          <section :key="items.id" class="cardHeader">
+          <section :key="items.id" class="cardHeader w-50">
             <section class="itemName">
               {{ items.name }}
             </section>
             <section class="itemLoc">
               <section>
+                <label>
+                  Latitude:
+                </label>
                 {{ items.lat }}
               </section>
               <section>
+                <label>
+                  Longitude:
+                </label>
                 {{ items.long }}
               </section>
             </section>
-            <section>
+            <section class="itemDate">
+              <label>
+                Criado em:
+              </label>
               {{ $moment(items.date_created).format('YYYY-MM-DD @ HH:MM') }}
             </section>
-            <section v-if="($moment(items.date_updated).isValid())">
+            <section v-if="($moment(items.date_updated).isValid())" class="itemDate">
+              <label>
+                Atualizado em:
+              </label>
               {{ $moment(items.date_updated).format('YYYY-MM-DD @ HH:MM') || '-' }}
             </section>
           </section>
           <section>
             <form method="post" @submit="addCity(name, items.countryId, lat, lon, today)">
-              <span class="description">
+              <!-- <span class="description">
                 Edite as informações de <strong>{{ items.name }}</strong>
-              </span>
+              </span> -->
               <section class="sectionForm">
                 <section class="input-text">
                   <label for="name">Nome</label>
-                  <input id="name" :value="items.name" type="text" placeholder="Nome do país" required>
+                  <input
+                    id="name"
+                    :value="items.name"
+                    type="text"
+                    maxlength="255"
+                    placeholder="Nome do país"
+                    required
+                  >
                 </section>
 
                 <section class="input-text">
                   <label for="lat">Latitude</label>
-                  <input id="lat" :value="items.lat" type="text" placeholder="Latitude" required>
+                  <input
+                    id="lat"
+                    :value="items.lat"
+                    type="number"
+                    placeholder="Latitude"
+                    required
+                  >
                 </section>
 
                 <section class="input-text">
                   <label for="lon">Longitude</label>
-                  <input id="lon" :value="items.long" type="text" placeholder="Longitude" required>
+                  <input
+                    id="lon"
+                    :value="items.long"
+                    type="number"
+                    placeholder="Longitude"
+                    required
+                  >
                 </section>
                 <input id="today" v-model="today" type="text" hidden>
                 <input id="country" :value="items.countryId" type="text" hidden>
@@ -209,4 +242,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.cardHeader {
+  background: #f2f2f2;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+
+  .itemName {
+    font-size: 2.5rem;
+    font-weight: 500;
+
+    .itemISO {
+      text-transform: uppercase;
+    }
+  }
+
+  .itemLoc {
+    display: flex;
+
+    > section {
+      margin-right: 2rem;
+
+      label {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .itemDate {
+    display: flex;
+    justify-content: space-between;
+
+    label {
+      font-weight: 500;
+    }
+  }
+}
 </style>
