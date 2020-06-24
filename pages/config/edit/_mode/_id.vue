@@ -3,20 +3,65 @@
     <!-- Logged In -->
     <div v-if="$store.state.auth" class="page">
       <pageHeader title="Edit" back-link="/config" />
-      <section>
+      <section v-if="items">
         <p v-if="$fetchState.pending">
-          Fetching data...
+          Obtendo informação, aguarde...
         </p>
         <p v-else-if="$fetchState.error">
-          Error while fetching data: {{ $fetchState.error.message }}
+          Erro ao obter a informação: {{ $fetchState.error.message }}
         </p>
-        <ul v-else>
-          <li :key="items.id">
-            {{ items }}
-          </li>
-        </ul>
+        <section v-else-if="this.$route.params.mode == 'country'">
+          <section :key="items.id" class="cardHeader">
+            <section class="itemName">
+              {{ items.name }}
+              <span class="itemISO">
+                ({{ items.iso }})
+              </span>
+            </section>
+            <section>
+              {{ $moment(items.date_created).format('YYYY-MM-DD @ HH:MM') }}
+            </section>
+            <section v-if="($moment(items.date_updated).isValid())">
+              {{ $moment(items.date_updated).format('YYYY-MM-DD @ HH:MM') || '-' }}
+            </section>
+          </section>
+          <section>
+            <form>
+              PAÍS!
+            </form>
+          </section>
+        </section>
+        <section v-else-if="this.$route.params.mode == 'city'">
+          <section :key="items.id" class="cardHeader">
+            <section>
+              {{ items.name }}
+            </section>
+            <section>
+              {{ items.lat }}
+            </section>
+            <section>
+              {{ items.long }}
+            </section>
+            <section>
+              {{ $moment(items.date_created).format('YYYY-MM-DD @ HH:MM') }}
+            </section>
+            <section v-if="($moment(items.date_updated).isValid())">
+              {{ $moment(items.date_updated).format('YYYY-MM-DD @ HH:MM') || '-' }}
+            </section>
+          </section>
+          <section>
+            <form>
+              CIDADE!
+            </form>
+          </section>
+        </section>
 
-        Id:{{ itemId }} ItemMode: {{ itemMode }}
+        <!-- <section v-if="isDev">
+          Id:{{ itemId }} ItemMode: {{ itemMode }}
+        </section> -->
+      </section>
+      <section v-else>
+        Não foi possível carregar as informações, volte à listagem e tente novamente.
       </section>
     </div>
   </div>
@@ -45,20 +90,12 @@ export default {
     }
   },
 
-  mounted () {
-  },
-
   methods: {
     async fillForm () {
       const itemId = this.$route.params.id
       const modeType = this.$route.params.mode
 
-      // eslint-disable-next-line no-console
-      console.log(itemId, modeType)
-
       await this.$axios.$get(internalAPI.url + '/' + modeType + '/' + itemId).then((response) => {
-        // eslint-disable-next-line no-console
-        console.log(response)
         this.items = response
       })
         .catch((error) => {
