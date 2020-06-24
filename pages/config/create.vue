@@ -41,7 +41,7 @@
         </form>
 
         <!-- Add City -->
-        <form v-if="picked === 'city'" method="post" @submit="addCountry(name, country, lat, lon, today)">
+        <form v-if="picked === 'city'" method="post" @submit="addCity(name, country, lat, lon, today)">
           <span class="description">
             Adicione as informações da <strong>Cidade</strong>
           </span>
@@ -81,6 +81,7 @@
 
 <script>
 import moment from 'moment'
+import { internalAPI } from '~/constants/'
 import pageHeader from '~/components/common/page/pageHeader.vue'
 
 export default {
@@ -103,19 +104,37 @@ export default {
 
   methods: {
     // eslint-disable-next-line require-await
-    async addCountry ({ name, iso, date }) {
+    async addCountry (name, iso, date) {
       // const countries = await this.$axios.$post(internalAPI.url + '/country/' + countryId + '?_embed=city')
       // eslint-disable-next-line no-console
       console.log(this.name, this.iso, this.date)
-      // TODO: Send error messages to Alert Component
     },
 
     // eslint-disable-next-line require-await
-    async addCity ({ name, country, lat, lon, date }) {
-      // const countries = await this.$axios.$post(internalAPI.url + '/country/' + countryId + '?_embed=city')
-      // eslint-disable-next-line no-console
-      console.log(this.name, this.country, this.lat, this.lon, this.date)
-      // TODO: Send error messages to Alert Component
+    /* eslint-disable */
+    async addCity (name, country, lat, lon, date) {
+      const today = moment().format()
+      const data = {
+        countryId: country,
+        name:name,
+        lat:lat,
+        long:lon,
+        date_created:today
+      }
+      /* eslint-enable */
+
+      await this.$axios.$post(
+        internalAPI.url + '/country/',
+        data,
+        { headers: { 'content-type': 'application/json' } }).then((response) => {
+        // this.$router.push('/config/', { params: { name } })
+        // eslint-disable-next-line no-console
+        console.log('Item adicionado: ' + name, country, lat, lon, date)
+      })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log('Error: ' + error)
+        })
     }
   }
 }

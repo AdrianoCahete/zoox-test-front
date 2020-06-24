@@ -69,7 +69,6 @@ export default {
       } catch (err) {
         // eslint-disable-next-line no-console
         console.log(err)
-        // this.$toast.error('Error!')
       }
     },
 

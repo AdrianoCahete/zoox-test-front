@@ -88,7 +88,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line node/no-deprecated-api
 import { internalAPI } from '~/constants/'
 import Icon from '~/components/common/Icon.vue'
 
@@ -130,9 +129,16 @@ export default {
 
     // eslint-disable-next-line require-await
     async deleteItem (id, mode) {
-      // const countries = await this.$axios.$get(internalAPI.url + '/country/' + countryId + '?_embed=city')
-      // eslint-disable-next-line no-console
-      console.log('Removendo: ' + id + ' ' + mode)
+      await this.$axios.$delete(internalAPI.url + '/' + mode + '/' + id).then((response) => {
+        // TODO: Add a popup to ask if't sure
+        this.getCountry(0)
+        // eslint-disable-next-line no-console
+        console.log('Removido!: ' + id + ' de ' + mode)
+      })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log('Error: ' + error)
+        })
     }
   }
 }
